@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dossier Complet : La Prédiction d'Alan Turing &amp; L'Événement de 2014</title>
+<title>La prédiction d'Alan Turing (1950 – 2014) | Dossier Spécial 3e</title>
 <style>
   :root {
     --bg: #f8fafc;
@@ -15,30 +15,31 @@
     --primary-hover: #1d4ed8;
     --primary-soft: #eff6ff;
     --accent: #0d9488;
-    --border: #cbd5e1;
+    --border: #e2e8f0;
     --success: #16a34a;
     --success-bg: #dcfce7;
     --danger: #dc2626;
     --danger-bg: #fee2e2;
-    --shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+    --radius: 12px;
   }
 
-  body.dark-mode {
-    --bg: #0f172a;
+  body.dark {
+    --bg: #0b1120;
     --surface: #1e293b;
-    --surface-alt: #334155;
+    --surface-alt: #0f172a;
     --text: #f8fafc;
-    --text-muted: #cbd5e1;
+    --text-muted: #94a3b8;
     --primary: #3b82f6;
     --primary-hover: #60a5fa;
-    --primary-soft: #1e3a8a;
-    --accent: #14b8a6;
-    --border: #475569;
+    --primary-soft: rgba(59, 130, 246, 0.15);
+    --accent: #2dd4bf;
+    --border: #334155;
     --success: #22c55e;
-    --success-bg: #14532d;
+    --success-bg: rgba(34, 197, 94, 0.15);
     --danger: #ef4444;
-    --danger-bg: #7f1d1d;
-    --shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    --danger-bg: rgba(239, 68, 68, 0.15);
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
   }
 
   * {
@@ -47,15 +48,19 @@
     padding: 0;
   }
 
-  body {
+  html {
+    scroll-behavior: smooth;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg);
-    color: var(--text);
     line-height: 1.65;
-    transition: background-color 0.25s, color 0.25s;
   }
 
-  /* Barre de lecture */
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  /* Barre de progression */
   #progress-container {
     position: fixed;
     top: 0;
@@ -73,25 +78,25 @@
     transition: width 0.1s ease-out;
   }
 
-  /* En-tête fixe */
+  /* Navigation */
   header {
     position: sticky;
     top: 0;
     z-index: 900;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    padding: 0.75rem 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
 
-  .header-inner {
-    max-width: 1120px;
+  .nav-inner {
+    max-width: 1050px;
     margin: 0 auto;
+    padding: 0.75rem 1.25rem;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 
   .brand {
@@ -103,155 +108,159 @@
     gap: 0.5rem;
   }
 
-  nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
+  .brand span.badge-3e {
+    background: var(--primary-soft);
+    color: var(--primary);
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
   }
 
-  nav a {
+  nav.menu {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  nav.menu a {
     text-decoration: none;
     color: var(--text-muted);
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 600;
     padding: 0.35rem 0.65rem;
     border-radius: 6px;
     transition: all 0.2s;
   }
 
-  nav a:hover, nav a.active {
+  nav.menu a:hover, nav.menu a.active {
     background: var(--primary-soft);
     color: var(--primary);
   }
 
-  .header-actions {
+  .actions {
     display: flex;
     gap: 0.5rem;
   }
 
-  .btn {
-    cursor: pointer;
-    border: 1px solid var(--border);
+  button.btn-icon {
     background: var(--surface-alt);
     color: var(--text);
+    border: 1px solid var(--border);
     padding: 0.4rem 0.75rem;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 0.85rem;
     font-weight: 600;
+    cursor: pointer;
     transition: all 0.2s;
   }
 
-  .btn:hover {
+  button.btn-icon:hover {
     border-color: var(--primary);
     color: var(--primary);
-  }
-
-  .btn-primary {
-    background: var(--primary);
-    color: #ffffff;
-    border-color: var(--primary);
-  }
-
-  .btn-primary:hover {
-    background: var(--primary-hover);
-    color: #ffffff;
   }
 
   /* Conteneur principal */
   main {
-    max-width: 1000px;
-    margin: 2rem auto;
-    padding: 0 1.25rem 4rem;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
   }
 
-  /* Hero section */
+  /* Hero */
   .hero {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 2.25rem;
-    margin-bottom: 2rem;
+    border-radius: var(--radius);
+    padding: 2.25rem 2rem;
+    margin-bottom: 2.5rem;
     box-shadow: var(--shadow);
+    border-left: 6px solid var(--primary);
   }
 
-  .badge {
+  .hero-tag {
     display: inline-block;
-    background: var(--primary-soft);
-    color: var(--primary);
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    padding: 0.25rem 0.65rem;
-    border-radius: 999px;
-    margin-bottom: 0.85rem;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
   }
 
   .hero h1 {
     font-size: 2rem;
     line-height: 1.25;
-    margin-bottom: 0.85rem;
+    margin-bottom: 1rem;
   }
 
   .hero p {
     color: var(--text-muted);
     font-size: 1.05rem;
-    margin-bottom: 1.5rem;
+    max-width: 780px;
   }
 
-  .kpi-grid {
+  .key-numbers {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
     gap: 1rem;
+    margin-top: 1.75rem;
   }
 
-  .kpi-card {
+  .stat-card {
     background: var(--surface-alt);
-    border: 1px solid var(--border);
-    border-radius: 10px;
     padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
   }
 
-  .kpi-value {
-    font-size: 1.55rem;
+  .stat-card .num {
+    font-size: 1.5rem;
     font-weight: 800;
     color: var(--primary);
     display: block;
   }
 
-  .kpi-label {
+  .stat-card .label {
     font-size: 0.85rem;
     color: var(--text-muted);
   }
 
   /* Sections */
   section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow);
-    scroll-margin-top: 85px;
+    margin-bottom: 3rem;
+    scroll-margin-top: 80px;
   }
 
-  section h2 {
+  h2 {
     font-size: 1.45rem;
     margin-bottom: 1rem;
-    padding-bottom: 0.6rem;
-    border-bottom: 2px solid var(--surface-alt);
     display: flex;
     align-items: center;
     gap: 0.6rem;
   }
 
-  section h3 {
-    font-size: 1.12rem;
-    margin: 1.25rem 0 0.5rem;
+  h2 .step-num {
+    background: var(--primary);
+    color: #ffffff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 800;
+    flex-shrink: 0;
   }
 
-  p {
-    margin-bottom: 0.9rem;
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.25rem;
   }
 
   blockquote {
@@ -259,78 +268,74 @@
     border-left: 4px solid var(--primary);
     padding: 1rem 1.25rem;
     border-radius: 0 8px 8px 0;
-    margin: 1.25rem 0;
+    margin: 1rem 0;
     font-style: italic;
   }
 
   blockquote footer {
-    margin-top: 0.5rem;
+    margin-top: 0.4rem;
     font-style: normal;
     font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-muted);
-  }
-
-  /* Chronologie interactive */
-  .timeline {
-    position: relative;
-    padding-left: 1.75rem;
-    border-left: 3px solid var(--primary);
-    margin: 1.25rem 0;
-  }
-
-  .timeline-item {
-    position: relative;
-    margin-bottom: 1.35rem;
-  }
-
-  .timeline-item:last-child {
-    margin-bottom: 0;
-  }
-
-  .timeline-dot {
-    position: absolute;
-    left: -2.22rem;
-    top: 0.25rem;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: var(--primary);
-    border: 3px solid var(--surface);
-  }
-
-  .timeline-date {
-    font-weight: 800;
+    font-weight: 700;
     color: var(--primary);
-    font-size: 0.92rem;
   }
 
-  /* Onglets (Tabs) */
-  .tabs-nav {
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .info-box {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.15rem;
+  }
+
+  .info-box h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+  }
+
+  ul.clean-list {
+    padding-left: 1.25rem;
+  }
+
+  ul.clean-list li {
+    margin-bottom: 0.55rem;
+  }
+
+  /* Onglets interactifs */
+  .tabs-header {
     display: flex;
-    flex-wrap: wrap;
     gap: 0.5rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--border);
     margin-bottom: 1.25rem;
+    flex-wrap: wrap;
   }
 
   .tab-btn {
+    background: transparent;
+    border: none;
+    padding: 0.65rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-muted);
     cursor: pointer;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--surface-alt);
-    color: var(--text);
-    font-weight: 600;
-    font-size: 0.9rem;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
     transition: all 0.2s;
   }
 
+  .tab-btn:hover {
+    color: var(--primary);
+  }
+
   .tab-btn.active {
-    background: var(--primary);
-    color: #ffffff;
-    border-color: var(--primary);
+    color: var(--primary);
+    border-bottom-color: var(--primary);
   }
 
   .tab-panel {
@@ -347,64 +352,66 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Dialogue reconstitué */
-  .chat-box {
+  /* Dialogues */
+  .chat-sample {
     background: var(--surface-alt);
-    border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 1.25rem;
-    margin: 1rem 0;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border);
   }
 
-  .msg {
-    max-width: 82%;
-    padding: 0.75rem 1rem;
-    border-radius: 10px;
-    margin-bottom: 0.75rem;
-    font-size: 0.95rem;
+  .msg-row {
+    margin-bottom: 0.65rem;
+    display: flex;
+    flex-direction: column;
   }
 
   .msg-judge {
+    align-self: flex-start;
     background: var(--surface);
     border: 1px solid var(--border);
-    margin-right: auto;
+    padding: 0.55rem 0.85rem;
+    border-radius: 10px 10px 10px 2px;
+    max-width: 85%;
   }
 
   .msg-bot {
-    background: var(--primary-soft);
-    border: 1px solid var(--primary);
-    margin-left: auto;
+    align-self: flex-end;
+    background: var(--primary);
+    color: #ffffff;
+    padding: 0.55rem 0.85rem;
+    border-radius: 10px 10px 2px 10px;
+    max-width: 85%;
   }
 
   .msg-author {
-    display: block;
     font-size: 0.75rem;
     font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 0.25rem;
-    color: var(--text-muted);
+    margin-bottom: 0.15rem;
+    opacity: 0.85;
   }
 
-  .msg-note {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    background: var(--surface);
-    padding: 0.5rem 0.75rem;
-    border-radius: 6px;
-    border-left: 3px solid var(--accent);
+  .analysis-note {
+    font-size: 0.88rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--border);
   }
 
-  /* Graphique à barres des scores */
+  /* Barres de scores */
   .score-row {
     margin-bottom: 1rem;
   }
 
-  .score-header {
+  .score-label {
     display: flex;
     justify-content: space-between;
     font-weight: 700;
-    font-size: 0.95rem;
-    margin-bottom: 0.35rem;
+    font-size: 0.92rem;
+    margin-bottom: 0.3rem;
   }
 
   .bar-track {
@@ -420,13 +427,16 @@
   .bar-fill {
     height: 100%;
     border-radius: 999px;
-    background: #64748b;
-    transition: width 0.6s ease;
+    display: flex;
+    align-items: center;
+    padding-left: 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #fff;
   }
 
-  .bar-fill.winner {
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-  }
+  .bar-win { background: var(--success); }
+  .bar-lose { background: #64748b; }
 
   .threshold-note {
     font-size: 0.85rem;
@@ -434,7 +444,7 @@
     margin-top: 0.5rem;
   }
 
-  /* Accordéon */
+  /* Accordéons */
   .accordion-item {
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -444,13 +454,13 @@
 
   .accordion-header {
     width: 100%;
-    text-align: left;
-    padding: 0.9rem 1.1rem;
     background: var(--surface-alt);
-    border: none;
     color: var(--text);
+    border: none;
+    padding: 0.9rem 1.1rem;
+    text-align: left;
+    font-size: 0.96rem;
     font-weight: 700;
-    font-size: 0.95rem;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -459,6 +469,7 @@
 
   .accordion-header:hover {
     background: var(--primary-soft);
+    color: var(--primary);
   }
 
   .accordion-body {
@@ -466,6 +477,7 @@
     padding: 1rem 1.1rem;
     background: var(--surface);
     border-top: 1px solid var(--border);
+    font-size: 0.95rem;
   }
 
   .accordion-item.open .accordion-body {
@@ -475,17 +487,16 @@
   /* Tableau comparatif */
   .table-wrap {
     overflow-x: auto;
-    margin: 1rem 0;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.92rem;
+    font-size: 0.93rem;
   }
 
   th, td {
-    padding: 0.75rem 0.9rem;
+    padding: 0.85rem 1rem;
     text-align: left;
     border-bottom: 1px solid var(--border);
   }
@@ -493,87 +504,129 @@
   th {
     background: var(--surface-alt);
     font-weight: 700;
+    color: var(--primary);
   }
 
-  /* Simulateur de chat interactif */
+  /* Simulateur de chat */
   .sim-container {
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
-    background: var(--surface-alt);
+    background: var(--surface);
+  }
+
+  .sim-header {
+    background: var(--primary);
+    color: #fff;
+    padding: 0.85rem 1.15rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+  }
+
+  .sim-status {
+    font-size: 0.8rem;
+    background: rgba(255,255,255,0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
   }
 
   .sim-messages {
-    height: 260px;
+    height: 270px;
     overflow-y: auto;
     padding: 1rem;
+    background: var(--surface-alt);
     display: flex;
     flex-direction: column;
-    gap: 0.65rem;
+    gap: 0.75rem;
   }
 
-  .sim-prompts {
+  .sim-bubble {
+    padding: 0.65rem 0.95rem;
+    border-radius: 12px;
+    max-width: 80%;
+    font-size: 0.93rem;
+  }
+
+  .sim-bubble.eugene {
+    align-self: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .sim-bubble.user {
+    align-self: flex-end;
+    background: var(--primary);
+    color: #fff;
+  }
+
+  .quick-prompts {
     padding: 0.75rem 1rem;
     background: var(--surface);
     border-top: 1px solid var(--border);
     display: flex;
-    flex-wrap: wrap;
     gap: 0.45rem;
+    flex-wrap: wrap;
   }
 
-  .prompt-chip {
-    cursor: pointer;
-    font-size: 0.82rem;
-    padding: 0.35rem 0.7rem;
-    border-radius: 999px;
-    border: 1px solid var(--primary);
+  .quick-btn {
     background: var(--primary-soft);
     color: var(--primary);
+    border: 1px solid transparent;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
     font-weight: 600;
+    cursor: pointer;
   }
 
-  .prompt-chip:hover {
-    background: var(--primary);
-    color: #ffffff;
+  .quick-btn:hover {
+    border-color: var(--primary);
   }
 
   .sim-input-row {
     display: flex;
     border-top: 1px solid var(--border);
-    background: var(--surface);
   }
 
   .sim-input-row input {
     flex: 1;
     border: none;
-    padding: 0.75rem 1rem;
-    background: transparent;
-    color: var(--text);
+    padding: 0.85rem 1rem;
     font-size: 0.95rem;
+    background: var(--surface);
+    color: var(--text);
     outline: none;
   }
 
   .sim-input-row button {
-    border: none;
     background: var(--primary);
-    color: #ffffff;
-    padding: 0 1.25rem;
+    color: #fff;
+    border: none;
+    padding: 0 1.35rem;
     font-weight: 700;
     cursor: pointer;
   }
 
-  /* Quiz interactif */
-  .quiz-card {
-    background: var(--surface-alt);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1.15rem;
-    margin-bottom: 1rem;
+  .sim-input-row button:hover {
+    background: var(--primary-hover);
   }
 
-  .quiz-question {
+  /* Quiz */
+  .quiz-q {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .quiz-q:last-of-type {
+    border-bottom: none;
+  }
+
+  .quiz-title {
     font-weight: 700;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.65rem;
   }
 
   .quiz-options {
@@ -582,59 +635,70 @@
     gap: 0.45rem;
   }
 
-  .quiz-option {
-    text-align: left;
-    padding: 0.6rem 0.9rem;
-    border-radius: 8px;
+  .quiz-opt {
+    background: var(--surface-alt);
     border: 1px solid var(--border);
-    background: var(--surface);
+    padding: 0.65rem 0.9rem;
+    border-radius: 8px;
+    text-align: left;
     color: var(--text);
-    cursor: pointer;
     font-size: 0.92rem;
+    cursor: pointer;
     transition: all 0.15s;
   }
 
-  .quiz-option:hover:not(:disabled) {
+  .quiz-opt:hover:not(:disabled) {
     border-color: var(--primary);
   }
 
-  .quiz-option.correct {
+  .quiz-opt.correct {
     background: var(--success-bg);
     border-color: var(--success);
+    color: var(--text);
     font-weight: 700;
   }
 
-  .quiz-option.wrong {
+  .quiz-opt.wrong {
     background: var(--danger-bg);
     border-color: var(--danger);
+    color: var(--text);
   }
 
   .quiz-feedback {
-    margin-top: 0.6rem;
+    margin-top: 0.5rem;
     font-size: 0.88rem;
     font-weight: 600;
-  }
-
-  #quiz-summary {
-    padding: 1rem;
-    border-radius: 8px;
-    background: var(--primary-soft);
-    border: 1px solid var(--primary);
-    font-weight: 700;
     display: none;
-    margin-top: 1rem;
   }
 
+  .quiz-result-box {
+    margin-top: 1.25rem;
+    padding: 1rem;
+    border-radius: 10px;
+    background: var(--primary-soft);
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  /* Impression */
   @media print {
-    header, #progress-container, .sim-prompts, .sim-input-row, .header-actions {
+    header, #progress-container, .sim-container, .actions, .quick-prompts {
       display: none !important;
+    }
+    body {
+      background: #fff !important;
+      color: #000 !important;
+    }
+    .card, .hero {
+      box-shadow: none !important;
+      border: 1px solid #ccc !important;
     }
     .tab-panel, .accordion-body {
       display: block !important;
-    }
-    section, .hero {
-      box-shadow: none;
-      break-inside: avoid;
     }
   }
 </style>
@@ -644,488 +708,540 @@
 <div id="progress-container"><div id="progress-bar"></div></div>
 
 <header>
-  <div class="header-inner">
-    <div class="brand">Dossier Turing 1950 &rarr; 2014</div>
-    <nav id="main-nav">
-      <a href="#prediction">1950 : Prédiction</a>
-      <a href="#chronologie">Chronologie</a>
-      <a href="#strategie">Protocole &amp; Ruse</a>
-      <a href="#resultats">Résultats 2014</a>
-      <a href="#polemique">Controverse</a>
-      <a href="#comparatif">2014 vs LLM</a>
-      <a href="#simulateur">Simulateur</a>
+  <div class="nav-inner">
+    <div class="brand">
+      Dossier Turing <span class="badge-3e">Spécial 3e / Brevet</span>
+    </div>
+    <nav class="menu">
+      <a href="#prediction">1950 : Le Pari</a>
+      <a href="#evenement">2014 : Londres</a>
+      <a href="#resultats">Résultats & Débat</a>
+      <a href="#comparatif">Hier vs Aujourd'hui</a>
+      <a href="#simulateur">Chat Eugene</a>
       <a href="#quiz">Quiz</a>
     </nav>
-    <div class="header-actions">
-      <button type="button" class="btn" id="theme-toggle">Mode sombre</button>
-      <button type="button" class="btn" onclick="window.print()">Imprimer</button>
+    <div class="actions">
+      <button class="btn-icon" id="theme-toggle" type="button">Mode sombre</button>
+      <button class="btn-icon" onclick="window.print()" type="button">Imprimer</button>
     </div>
   </div>
 </header>
 
 <main>
+  <!-- HERO -->
   <div class="hero">
-    <span class="badge">Histoire de l'Intelligence Artificielle</span>
-    <h1>La prédiction d'Alan Turing pour l'an 2000 et l'événement de 2014</h1>
-    <p>Du célèbre article fondateur publié en octobre 1950 jusqu'au test historique organisé à la Royal Society de Londres en juin 2014 avec le programme Eugene Goostman : récit complet, analyse technique et controverses scientifiques.</p>
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <span class="kpi-value">30 %</span>
-        <span class="kpi-label">Seuil de tromperie fixé par Alan Turing dès 1950</span>
+    <span class="hero-tag">Histoire des sciences & Informatique</span>
+    <h1>La prédiction d'Alan Turing pour l'an 2000 : du rêve de 1950 à l'exploit de 2014</h1>
+    <p>En 1950, alors que les ordinateurs prenaient la taille d'une pièce entière, le mathématicien britannique Alan Turing a lancé un pari fou sur l'avenir de l'intelligence artificielle. Voici toute l'histoire de cette prédiction, du début à la fin.</p>
+
+    <div class="key-numbers">
+      <div class="stat-card">
+        <span class="num">1950</span>
+        <span class="label">Publication du célèbre article d'Alan Turing</span>
       </div>
-      <div class="kpi-card">
-        <span class="kpi-value">5 min</span>
-        <span class="kpi-label">Durée réglementaire de chaque interrogatoire écrit</span>
+      <div class="stat-card">
+        <span class="num">30 %</span>
+        <span class="label">Seuil de juges humains à tromper en 5 min</span>
       </div>
-      <div class="kpi-card">
-        <span class="kpi-value">33 %</span>
-        <span class="kpi-label">Score atteint par Eugene Goostman (10 juges sur 30)</span>
+      <div class="stat-card">
+        <span class="num">125 Mo</span>
+        <span class="label">Mémoire estimée nécessaire par Turing</span>
       </div>
-      <div class="kpi-card">
-        <span class="kpi-value">+14 ans</span>
-        <span class="kpi-label">Décalage entre l'horizon 2000 et le franchissement en 2014</span>
+      <div class="stat-card">
+        <span class="num">2014</span>
+        <span class="label">Année où le seuil est officiellement franchi</span>
       </div>
     </div>
   </div>
 
-  <!-- SECTION 1 -->
+  <!-- SECTION 1 : 1950 -->
   <section id="prediction">
-    <h2>1. La prédiction exacte d'Alan Turing (1950)</h2>
-    <p>En octobre 1950, le mathématicien britannique Alan Turing publie dans la revue philosophique <em>Mind</em> l'article <strong>« Computing Machinery and Intelligence »</strong>. Il y propose de remplacer la question floue « Les machines peuvent-elles penser ? » par un test pratique : le <strong>jeu de l'imitation</strong>.</p>
-    <blockquote>
-      « Je crois que dans environ cinquante ans, il sera possible de programmer des ordinateurs, ayant une capacité de stockage d'environ 10<sup>9</sup>, pour les faire jouer si bien au jeu de l'imitation qu'un interrogateur moyen n'aura pas plus de 70 % de chances de faire la bonne identification après cinq minutes d'interrogatoire. »
-      <footer>— Alan Turing, <em>Mind</em>, Vol. LIX, n° 236, octobre 1950</footer>
-    </blockquote>
-    <p>Cette prédiction reposait sur trois paramètres chiffrés très précis :</p>
-    <ul>
-      <li><strong>L'horizon temporel (an 2000) :</strong> « dans environ cinquante ans » à compter de la publication de l'article en 1950.</li>
-      <li><strong>Le taux de réussite (30 %) :</strong> si un juge humain a au plus 70 % de chances de démasquer la machine, cela signifie que la machine trompe l'humain dans au moins <strong>30 % des cas</strong>.</li>
-      <li><strong>La mémoire requise (10<sup>9</sup> unités) :</strong> soit environ 1 gigabit (125 Mo), une capacité colossale pour 1950 mais devenue banale dès les années 1990.</li>
-    </ul>
-  </section>
+    <h2><span class="step-num">1</span> 1950 : La prédiction d'Alan Turing pour l'an 2000</h2>
+    <div class="card">
+      <p>En <strong>octobre 1950</strong>, Alan Turing (célèbre pour avoir décrypté la machine allemande Enigma pendant la Seconde Guerre mondiale) publie un article scientifique intitulé <em>Computing Machinery and Intelligence</em> (« Les machines de calcul et l'intelligence »).</p>
+      <p style="margin-top:0.75rem;">Il commence par une question simple : <strong>« Les machines peuvent-elles penser ? »</strong> Comme le mot « penser » est trop difficile à définir, il invente une expérience pratique appelée le <strong>jeu de l'imitation</strong> (aujourd'hui connu sous le nom de <strong>test de Turing</strong>).</p>
 
-  <!-- SECTION 2 -->
-  <section id="chronologie">
-    <h2>2. Chronologie complète : de 1950 à juin 2014</h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-date">Octobre 1950</div>
-        <p>Publication de l'article d'Alan Turing définissant le jeu de l'imitation et la prédiction pour l'an 2000.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-date">7 juin 1954</div>
-        <p>Décès d'Alan Turing à Wilmslow (Royaume-Uni) à l'âge de 41 ans.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-date">An 2000</div>
-        <p>Échéance initiale de la prédiction : aucun programme informatique ne parvient encore à atteindre le seuil des 30 % lors des compétitions officielles (comme le Prix Loebner).</p>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-date">2001</div>
-        <p>Début du développement d'<strong>Eugene Goostman</strong> à Saint-Pétersbourg par Vladimir Veselov et Eugene Demchenko.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-date">6 et 7 juin 2014</div>
-        <p>Organisation du grand test à la <strong>Royal Society de Londres</strong> par l'Université de Reading pour commémorer les 60 ans de la disparition d'Alan Turing. 300 conversations simultanées sont menées.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-date">8 juin 2014</div>
-        <p>Annonce officielle par le professeur Kevin Warwick : Eugene Goostman a convaincu 33 % des juges, franchissant pour la première fois le seuil historique.</p>
-      </div>
-    </div>
-  </section>
+      <blockquote>
+        « Je crois que dans une cinquantaine d'années [vers l'an 2000], il sera possible de programmer des ordinateurs dotés d'une capacité de stockage d'environ 10⁹ unités pour les faire jouer si bien au jeu de l'imitation qu'un interrogateur moyen n'aura pas plus de 70 % de chances de faire la bonne identification après cinq minutes d'interrogatoire. »
+        <footer>— Alan Turing, Mind, octobre 1950</footer>
+      </blockquote>
 
-  <!-- SECTION 3 -->
-  <section id="strategie">
-    <h2>3. Coulisses de l'événement : Protocole, Stratégie &amp; Dialogues</h2>
-    <div class="tabs-nav" role="tablist">
-      <button type="button" class="tab-btn active" data-tab="tab-protocole">Protocole officiel</button>
-      <button type="button" class="tab-btn" data-tab="tab-ruse">La ruse du personnage</button>
-      <button type="button" class="tab-btn" data-tab="tab-dialogues">Extraits de dialogues</button>
-    </div>
-
-    <div id="tab-protocole" class="tab-panel active">
-      <h3>Un cadre rigoureux et sans restriction de sujet</h3>
-      <p>L'événement de juin 2014 a été orchestré par l'École d'ingénierie des systèmes de l'<strong>Université de Reading</strong> (Kevin Warwick et Huma Shah) en partenariat avec le projet européen <em>RoboLaw</em>, sous l'arbitrage indépendant du professeur John Barnden (Université de Birmingham).</p>
-      <ul>
-        <li><strong>Conversations parallèles :</strong> Chaque juge échangeait par clavier pendant exactement 5 minutes avec deux interlocuteurs cachés simultanément (un humain réel et un programme).</li>
-        <li><strong>Liberté totale :</strong> Contrairement à d'autres concours qui limitaient les discussions à un thème précis, les 30 juges pouvaient poser n'importe quelle question (culture générale, humour, logique, actualité).</li>
-        <li><strong>Volume de données :</strong> 300 conversations complètes ont été enregistrées sur les deux journées.</li>
-      </ul>
-    </div>
-
-    <div id="tab-ruse" class="tab-panel">
-      <h3>Pourquoi un adolescent ukrainien de 13 ans ?</h3>
-      <p>Eugene Goostman ne reposait pas sur des réseaux de neurones modernes, mais sur des arbres de règles logiques et des scripts. Ses créateurs ont compensé les limites techniques de l'IA par une brillante ingénierie psychologique :</p>
-      <ul>
-        <li><strong>L'âge (13 ans) :</strong> Un jeune adolescent n'est pas censé tout savoir. Lorsqu'il ignorait une réponse complexe, les juges mettaient cela sur le compte de son jeune âge plutôt que d'un défaut logiciel.</li>
-        <li><strong>La nationalité (Ukrainien vivant à Odessa) :</strong> L'anglais n'étant pas sa langue maternelle, ses fautes de grammaire, ses tournures maladroites et ses incompréhensions paraissaient naturelles.</li>
-        <li><strong>Une biographie cohérente :</strong> Il possédait un cochon d'Inde nommé Bill et un père gynécologue, détails qu'il ramenait régulièrement dans la conversation pour reprendre le contrôle du sujet.</li>
-      </ul>
-    </div>
-
-    <div id="tab-dialogues" class="tab-panel">
-      <h3>Exemples d'échanges réels lors du test</h3>
-      <div class="chat-box">
-        <div class="msg msg-judge">
-          <span class="msg-author">Juge humain</span>
-          Combien de pattes a un mille-pattes ?
+      <div class="grid-2" style="margin-top:1.25rem;">
+        <div class="info-box">
+          <h3>Comment marche le test ?</h3>
+          <p>Un juge humain discute uniquement par écrit (via un clavier et un écran) avec deux interlocuteurs cachés : un vrai humain et un ordinateur. Au bout de <strong>5 minutes</strong>, le juge doit deviner qui est la machine.</p>
         </div>
-        <div class="msg msg-bot">
-          <span class="msg-author">Eugene Goostman</span>
-          Seulement deux, mais les mutants de Tchernobyl peuvent en avoir jusqu'à cinq. Je sais que tu es censé me piéger.
-        </div>
-        <div class="msg-note">
-          <strong>Analyse :</strong> Plutôt que d'échouer sur un piège logique ou de donner une définition encyclopédique trop robotique, le script répond par une blague cohérente avec son origine ukrainienne et retourne l'accusation vers le juge.
-        </div>
-      </div>
-
-      <div class="chat-box">
-        <div class="msg msg-judge">
-          <span class="msg-author">Juge humain</span>
-          Quelle musique écoutes-tu en ce moment ?
-        </div>
-        <div class="msg msg-bot">
-          <span class="msg-author">Eugene Goostman</span>
-          J'aime bien Eminem. Mais en vrai je préfère les vieux films soviétiques que mon père regarde à la maison. Et toi, tu fais quoi dans la vie ?
-        </div>
-        <div class="msg-note">
-          <strong>Analyse :</strong> Technique de redirection systématique : réponse courte crédible + ancrage familial + relance immédiate par une question pour obliger le juge à parler de lui.
+        <div class="info-box">
+          <h3>Pourquoi 30 % et 125 Mo ?</h3>
+          <p>Si le juge a 70 % de chances de trouver la bonne réponse, cela veut dire qu'il se trompe dans <strong>30 % des cas</strong>. Pour y arriver, Turing estimait qu'il faudrait une mémoire d'environ 1 milliard de bits (soit environ 125 Mo, moins qu'une clé USB actuelle !).</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 4 -->
+  <!-- SECTION 2 : 2014 -->
+  <section id="evenement">
+    <h2><span class="step-num">2</span> Juin 2014 : L'événement historique à Londres</h2>
+    <div class="card">
+      <p>En l'an 2000, aucun programme informatique n'avait encore réussi à atteindre les 30 % lors des concours officiels. Il a fallu attendre <strong>14 ans de plus</strong>.</p>
+      <p style="margin-top:0.65rem;">Du <strong>6 au 8 juin 2014</strong>, l'Université de Reading et le projet européen <em>RoboLaw</em> organisent un grand événement à la prestigieuse <strong>Royal Society de Londres</strong>. La date n'est pas choisie au hasard : elle marque les <strong>60 ans de la mort d'Alan Turing</strong> (décédé le 7 juin 1954).</p>
+
+      <div class="tabs-header" style="margin-top:1.5rem;">
+        <button class="tab-btn active" data-tab="tab-proto" type="button">Le déroulement des tests</button>
+        <button class="tab-btn" data-tab="tab-ruse" type="button">La ruse d'Eugene Goostman</button>
+        <button class="tab-btn" data-tab="tab-dialogues" type="button">Extraits réels des dialogues</button>
+      </div>
+
+      <!-- TAB 1 -->
+      <div class="tab-panel active" id="tab-proto">
+        <ul class="clean-list">
+          <li><strong>5 robots en compétition :</strong> Cinq agents conversationnels (<em>Eugene Goostman</em>, <em>Elbot</em>, <em>JFred</em>, <em>Ultra Hal</em> et <em>Cleverbot</em>) sont sélectionnés pour passer l'épreuve.</li>
+          <li><strong>30 juges humains :</strong> Des personnes variées (journalistes, chercheurs, acteurs) participent aux tests sous le contrôle de l'arbitre indépendant John Barnden.</li>
+          <li><strong>300 conversations au total :</strong> Chaque juge mène des discussions écrites de 5 minutes en parallèle avec un humain et une machine.</li>
+          <li><strong>Liberté totale des questions :</strong> Contrairement à d'autres concours, les juges avaient le droit de poser n'importe quelle question (culture, humour, logique, actualité) sans aucun thème imposé.</li>
+        </ul>
+      </div>
+
+      <!-- TAB 2 -->
+      <div class="tab-panel" id="tab-ruse">
+        <p>Le grand gagnant, <strong>Eugene Goostman</strong>, a été créé dès 2001 par le Russe Vladimir Veselov et l'Ukrainien Eugene Demchenko. Ce programme ne possédait pas d'intelligence artificielle moderne : il fonctionnait grâce à des milliers de règles écrites à la main.</p>
+        <p style="margin-top:0.65rem;">Pour tromper les juges, ses créateurs ont eu une idée psychologique très maline : <strong>lui inventer un personnage précis</strong>.</p>
+        <div class="grid-2" style="margin-top:1rem;">
+          <div class="info-box">
+            <h3>Un ado de 13 ans</h3>
+            <p>Eugene prétend être un garçon de 13 ans vivant à Odessa (en Ukraine), fan d'Eminem et propriétaire d'un cochon d'Inde nommé Bill. Son jeune âge excuse son manque de culture générale.</p>
+          </div>
+          <div class="info-box">
+            <h3>Non-anglophone</h3>
+            <p>Comme l'anglais n'est pas sa langue maternelle, les juges lui pardonnent naturellement ses fautes d'orthographe, ses phrases maladroites et ses incompréhensions.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3 -->
+      <div class="tab-panel" id="tab-dialogues">
+        <p style="margin-bottom:1rem;">Voici des extraits traduits des véritables discussions échangées pendant les tests de 5 minutes :</p>
+
+        <div class="chat-sample">
+          <div class="msg-row">
+            <div class="msg-judge">
+              <div class="msg-author">Juge humain</div>
+              Quelle musique aimes-tu écouter ?
+            </div>
+          </div>
+          <div class="msg-row">
+            <div class="msg-bot">
+              <div class="msg-author">Eugene Goostman</div>
+              J'aime Eminem ! Mais je déteste la musique pop stupide que ma mère écoute toute la journée.
+            </div>
+          </div>
+          <div class="analysis-note">Astuce repérée : Le robot utilise des détails crédibles du quotidien d'un ado (« ma mère ») pour paraître humain.</div>
+        </div>
+
+        <div class="chat-sample">
+          <div class="msg-row">
+            <div class="msg-judge">
+              <div class="msg-author">Juge humain</div>
+              Combien font 34 plus 55, et que penses-tu de l'actualité sur CNN ?
+            </div>
+          </div>
+          <div class="msg-row">
+            <div class="msg-bot">
+              <div class="msg-author">Eugene Goostman</div>
+              Tu me prends pour une calculatrice ? Et je ne regarde pas CNN, je préfère les vieux films soviétiques !
+            </div>
+          </div>
+          <div class="analysis-note">Astuce repérée : Face à une question piège ou complexe, Eugene esquive avec humour et change de sujet.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 : RESULTATS & POLEMIQUE -->
   <section id="resultats">
-    <h2>4. Résultats officiels des 5 programmes (8 juin 2014)</h2>
-    <p>Cinq agents conversationnels étaient en compétition devant le panel des 30 juges. Seul <strong>Eugene Goostman</strong> a franchi la barre symbolique des 30 % fixée par Turing en convainquant 10 juges sur 30.</p>
+    <h2><span class="step-num">3</span> Le verdict du 8 juin 2014 et la polémique</h2>
+    <div class="card">
+      <p style="margin-bottom:1.25rem;">Le <strong>8 juin 2014</strong>, l'Université de Reading annonce officiellement qu'<strong>Eugene Goostman a convaincu 10 juges sur 30 (soit 33 %)</strong> qu'il était un être humain, dépassant ainsi la barre symbolique des 30 % fixée par Turing.</p>
 
-    <div class="score-row">
-      <div class="score-header"><span>1. Eugene Goostman (Seuil atteint)</span><span>33 % (10/30 juges)</span></div>
-      <div class="bar-track"><div class="bar-fill winner" style="width: 33%;"></div></div>
-    </div>
-    <div class="score-row">
-      <div class="score-header"><span>2. Elbot</span><span>27 %</span></div>
-      <div class="bar-track"><div class="bar-fill" style="width: 27%;"></div></div>
-    </div>
-    <div class="score-row">
-      <div class="score-header"><span>3. JFred</span><span>20 %</span></div>
-      <div class="bar-track"><div class="bar-fill" style="width: 20%;"></div></div>
-    </div>
-    <div class="score-row">
-      <div class="score-header"><span>4. Ultra Hal</span><span>13 %</span></div>
-      <div class="bar-track"><div class="bar-fill" style="width: 13%;"></div></div>
-    </div>
-    <div class="score-row">
-      <div class="score-header"><span>5. Cleverbot</span><span>7 %</span></div>
-      <div class="bar-track"><div class="bar-fill" style="width: 7%;"></div></div>
-    </div>
-    <p class="threshold-note">* Objectif historique d'Alan Turing : dépasser 30 % de juges trompés après 5 minutes de discussion.</p>
-  </section>
-
-  <!-- SECTION 5 -->
-  <section id="polemique">
-    <h2>5. La controverse scientifique mondiale</h2>
-    <p>Dès l'annonce des résultats le 8 juin 2014, les gros titres de la presse internationale ont affirmé qu'un superordinateur avait enfin passé le test de Turing. Dès le lendemain, la communauté scientifique a vivement nuancé cette annonce. Cliquez sur chaque point pour lire les arguments :</p>
-
-    <div class="accordion-item open">
-      <button type="button" class="accordion-header">
-        <span>1. L'exploitation de la psychologie plutôt que l'intelligence</span>
-        <span>+</span>
-      </button>
-      <div class="accordion-body">
-        De nombreux chercheurs (dont Ray Kurzweil et le linguiste Geoff Pullum) ont souligné qu'Eugene Goostman n'avait aucune compréhension réelle du monde. En simulant un enfant étranger, le logiciel a poussé les juges à faire preuve d'indulgence et d'empathie face à ses incohérences.
+      <div class="score-row">
+        <div class="score-label">
+          <span>1. Eugene Goostman (Vainqueur - Seuil de 30 % franchi)</span>
+          <span>33 % (10/30 juges)</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill bar-win" style="width: 33%;">33 %</div></div>
       </div>
-    </div>
 
-    <div class="accordion-item">
-      <button type="button" class="accordion-header">
-        <span>2. Une durée de 5 minutes jugée beaucoup trop courte</span>
-        <span>+</span>
-      </button>
-      <div class="accordion-body">
-        En seulement cinq minutes d'échanges écrits (soit environ 10 à 15 répliques par interlocuteur), un programme bien scripté peut facilement esquiver les questions difficiles en changeant de sujet ou en faisant de l'humour. Sur 30 minutes, la supercherie aurait été démasquée immédiatement.
+      <div class="score-row">
+        <div class="score-label">
+          <span>2. Elbot</span>
+          <span>27 %</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill bar-lose" style="width: 27%;">27 %</div></div>
       </div>
-    </div>
 
-    <div class="accordion-item">
-      <button type="button" class="accordion-header">
-        <span>3. La réponse des organisateurs (Université de Reading)</span>
-        <span>+</span>
-      </button>
-      <div class="accordion-body">
-        Le professeur Kevin Warwick a défendu la validité de l'expérience en rappelant que le protocole respectait à la lettre les conditions exactes formulées par Alan Turing dans son article de 1950 (5 minutes, interrogateur moyen, aucune restriction de sujet et seuil de 30 %).
+      <div class="score-row">
+        <div class="score-label">
+          <span>3. JFred</span>
+          <span>20 %</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill bar-lose" style="width: 20%;">20 %</div></div>
       </div>
-    </div>
-  </section>
 
-  <!-- SECTION 6 -->
-  <section id="comparatif">
-    <h2>6. Mise en perspective : Eugene Goostman (2014) vs IA modernes</h2>
-    <p>Avec l'essor des grands modèles de langage (LLM) dans les années 2020, le test de Turing classique de 5 minutes est considéré comme largement dépassé.</p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Critère</th>
-            <th>Eugene Goostman (2014)</th>
-            <th>Grands Modèles de Langage modernes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Architecture</strong></td>
-            <td>Règles logiques programmées à la main et scripts</td>
-            <td>Réseaux de neurones profonds (Transformers) entraînés sur des milliards de textes</td>
-          </tr>
-          <tr>
-            <td><strong>Stratégie</strong></td>
-            <td>Esquive, humour, simulation d'un enfant étranger</td>
-            <td>Raisonnement contextuel, synthèse, adaptation au ton de l'utilisateur</td>
-          </tr>
-          <tr>
-            <td><strong>Mémoire de discussion</strong></td>
-            <td>Très limitée (quelques phrases précédentes)</td>
-            <td>Fenêtre de contexte massive (dizaines ou centaines de pages)</td>
-          </tr>
-          <tr>
-            <td><strong>Performance au test</strong></td>
-            <td>33 % de réussite sur 5 minutes</td>
-            <td>Dépasse couramment les 50 % même sur des tests prolongés</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+      <div class="score-row">
+        <div class="score-label">
+          <span>4. Ultra Hal</span>
+          <span>13 %</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill bar-lose" style="width: 13%;">13 %</div></div>
+      </div>
 
-  <!-- SECTION 7 : SIMULATEUR INTERACTIF -->
-  <section id="simulateur">
-    <h2>7. Simulateur : Testez les répliques d'Eugene Goostman</h2>
-    <p>Essayez de piéger un mini-script inspiré des réponses et esquives utilisées par Eugene Goostman lors du test de 2014. Cliquez sur une question suggérée ou écrivez la vôtre :</p>
+      <div class="score-row">
+        <div class="score-label">
+          <span>5. Cleverbot</span>
+          <span>7 %</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill bar-lose" style="width: 7%;">7 %</div></div>
+      </div>
 
-    <div class="sim-container">
-      <div class="sim-messages" id="sim-messages">
-        <div class="msg msg-bot">
-          <span class="msg-author">Eugene (13 ans, Odessa)</span>
-          Salut ! Moi c'est Eugene. Mon cochon d'Inde Bill dort sur mon bureau, alors j'ai 5 minutes pour discuter. Tu veux parler de quoi ?
+      <p class="threshold-note">Barre de réussite fixée par Alan Turing en 1950 : <strong>30 %</strong>.</p>
+
+      <h3 style="margin-top:1.75rem; margin-bottom:0.85rem;">Pourquoi les scientifiques ont critiqué cette victoire ?</h3>
+      <p style="margin-bottom:1rem;">Dès le lendemain (9 juin 2014), la presse mondiale annonce que « les machines ont égalé l'intelligence humaine ». Mais de nombreux chercheurs en IA réagissent pour nuancer cet exploit (cliquez pour lire leurs arguments) :</p>
+
+      <div class="accordion-item">
+        <button class="accordion-header" type="button">
+          <span>Argument 1 : Une ruse psychologique plutôt que de l'intelligence</span>
+          <span>+</span>
+        </button>
+        <div class="accordion-body">
+          Les chercheurs ont expliqué qu'Eugene ne comprenait rien au sens des mots. En se faisant passer pour un enfant étranger, il a poussé les juges à être indulgents face à ses réponses absurdes.
         </div>
       </div>
-      <div class="sim-prompts">
-        <button type="button" class="prompt-chip" data-q="Combien font 148 multiplié par 27 ?">Calcul complexe</button>
-        <button type="button" class="prompt-chip" data-q="Que penses-tu de la politique actuelle en Europe ?">Politique</button>
-        <button type="button" class="prompt-chip" data-q="Es-tu un robot ou un ordinateur ?">Es-tu un robot ?</button>
-        <button type="button" class="prompt-chip" data-q="Parle-moi de ta famille et de ton père.">Ta famille</button>
-        <button type="button" class="prompt-chip" data-q="Quelle est la capitale de l'Australie ?">Culture générale</button>
+
+      <div class="accordion-item">
+        <button class="accordion-header" type="button">
+          <span>Argument 2 : Une durée trop courte (5 minutes)</span>
+          <span>+</span>
+        </button>
+        <div class="accordion-body">
+          Cinq minutes de discussion suffisent pour faire illusion avec des blagues et des changements de sujet. Si la discussion avait duré 30 minutes, les juges auraient vite repéré que le programme tournait en rond.
+        </div>
       </div>
-      <div class="sim-input-row">
-        <input type="text" id="sim-input" placeholder="Posez une question à Eugene...">
-        <button type="button" id="sim-send">Envoyer</button>
+
+      <div class="accordion-item">
+        <button class="accordion-header" type="button">
+          <span>Argument 3 : Le test de Turing mesure l'imitation, pas la pensée</span>
+          <span>+</span>
+        </button>
+        <div class="accordion-body">
+          Savoir imiter un humain à l'écrit ne prouve pas qu'une machine est consciente ou capable de raisonner comme un cerveau humain.
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 8 : QUIZ INTERACTIF -->
+  <!-- SECTION 4 : HIER VS AUJOURD'HUI -->
+  <section id="comparatif">
+    <h2><span class="step-num">4</span> Hier vs Aujourd'hui : Du robot de 2014 aux IA actuelles</h2>
+    <div class="card">
+      <p style="margin-bottom:1rem;">Depuis 2014, l'intelligence artificielle a connu une révolution grâce aux grands modèles de langage (comme ChatGPT, Gemini ou Claude). Voici les grandes différences :</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Critère</th>
+              <th>Eugene Goostman (2014)</th>
+              <th>IA modernes (LLM actuels)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Technologie utilisée</strong></td>
+              <td>Règles et phrases écrites à la main par des programmeurs.</td>
+              <td>Réseaux de neurones entraînés sur des milliards de textes.</td>
+            </tr>
+            <tr>
+              <td><strong>Compréhension</strong></td>
+              <td>Aucune : repère juste des mots-clés pour lancer une réplique.</td>
+              <td>Capable d'analyser le contexte, d'argumenter et de résumer.</td>
+            </tr>
+            <tr>
+              <td><strong>Stratégie face à une question dure</strong></td>
+              <td>Fait une blague ou change de sujet pour cacher son ignorance.</td>
+              <td>Répond précisément sur presque tous les sujets (maths, histoire, code).</td>
+            </tr>
+            <tr>
+              <td><strong>Résultat au test de Turing</strong></td>
+              <td>33 % de réussite (tout juste au-dessus du seuil de 30 %).</td>
+              <td>Dépasse largement les 30 % sur des conversations longues.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-box" style="margin-top:1.25rem;">
+        <h3>Les nouveaux tests inventés pour remplacer celui de Turing</h3>
+        <p>Puisque les IA modernes réussissent trop facilement le test de Turing, les scientifiques utilisent aujourd'hui d'autres épreuves : le <strong>test de Winograd</strong> (comprendre des phrases ambiguës grâce au bon sens), le <strong>test de Lovelace</strong> (créer une œuvre originale sans être guidé) ou des examens de raisonnement scientifique complexe.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5 : SIMULATEUR -->
+  <section id="simulateur">
+    <h2><span class="step-num">5</span> Teste toi-même : Discute avec une simulation d'Eugene</h2>
+    <div class="card">
+      <p style="margin-bottom:1rem;">Essaie de piéger cette mini-simulation inspirée des vraies réponses d'Eugene Goostman lors du concours de 2014 !</p>
+
+      <div class="sim-container">
+        <div class="sim-header">
+          <span>Eugene Goostman (13 ans, Odessa)</span>
+          <span class="sim-status">En ligne</span>
+        </div>
+        <div class="sim-messages" id="sim-messages">
+          <div class="sim-bubble eugene">Salut ! Je m'appelle Eugene, j'ai 13 ans et j'habite à Odessa en Ukraine. Tu veux parler de quoi ?</div>
+        </div>
+        <div class="quick-prompts">
+          <button class="quick-btn" data-q="Es-tu un robot ?" type="button">Es-tu un robot ?</button>
+          <button class="quick-btn" data-q="Combien font 148 x 23 ?" type="button">Combien font 148 x 23 ?</button>
+          <button class="quick-btn" data-q="As-tu un animal ?" type="button">As-tu un animal ?</button>
+          <button class="quick-btn" data-q="Qui est Alan Turing ?" type="button">Qui est Alan Turing ?</button>
+        </div>
+        <form class="sim-input-row" id="sim-form">
+          <input type="text" id="sim-input" placeholder="Pose une question à Eugene..." autocomplete="off">
+          <button type="submit">Envoyer</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6 : QUIZ -->
   <section id="quiz">
-    <h2>8. Quiz express : Avez-vous tout retenu ?</h2>
-    <p>Testez vos connaissances sur l'article de 1950 et l'événement de 2014 :</p>
-
-    <div class="quiz-card" data-answer="1">
-      <div class="quiz-question">1. Quel pourcentage minimum de juges une machine devait-elle tromper selon la prédiction d'Alan Turing ?</div>
-      <div class="quiz-options">
-        <button type="button" class="quiz-option" data-idx="0">10 % après 10 minutes</button>
-        <button type="button" class="quiz-option" data-idx="1">30 % après 5 minutes</button>
-        <button type="button" class="quiz-option" data-idx="2">70 % après 5 minutes</button>
+    <h2><span class="step-num">6</span> Quiz de révision (Niveau 3e / Brevet)</h2>
+    <div class="card" id="quiz-container">
+      <!-- Question 1 -->
+      <div class="quiz-q" data-answer="1">
+        <div class="quiz-title">1. En quelle année Alan Turing a-t-il formulé sa célèbre prédiction pour l'an 2000 ?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-idx="0" type="button">En 1939</button>
+          <button class="quiz-opt" data-idx="1" type="button">En 1950</button>
+          <button class="quiz-opt" data-idx="2" type="button">En 1984</button>
+        </div>
+        <div class="quiz-feedback"></div>
       </div>
-      <div class="quiz-feedback"></div>
-    </div>
 
-    <div class="quiz-card" data-answer="2">
-      <div class="quiz-question">2. Quelle identité les créateurs d'Eugene Goostman avaient-ils choisie pour justifier ses erreurs ?</div>
-      <div class="quiz-options">
-        <button type="button" class="quiz-option" data-idx="0">Un professeur de mathématiques retraité à Londres</button>
-        <button type="button" class="quiz-option" data-idx="1">Un journaliste américain pressé</button>
-        <button type="button" class="quiz-option" data-idx="2">Un adolescent ukrainien de 13 ans vivant à Odessa</button>
+      <!-- Question 2 -->
+      <div class="quiz-q" data-answer="2">
+        <div class="quiz-title">2. Quel pourcentage minimum de juges un ordinateur devait-il tromper en 5 minutes selon Turing ?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-idx="0" type="button">100 % des juges</button>
+          <button class="quiz-opt" data-idx="1" type="button">50 % des juges</button>
+          <button class="quiz-opt" data-idx="2" type="button">30 % des juges</button>
+        </div>
+        <div class="quiz-feedback"></div>
       </div>
-      <div class="quiz-feedback"></div>
-    </div>
 
-    <div class="quiz-card" data-answer="0">
-      <div class="quiz-question">3. Pourquoi l'événement a-t-il été organisé précisément les 6 et 7 juin 2014 ?</div>
-      <div class="quiz-options">
-        <button type="button" class="quiz-option" data-idx="0">Pour marquer les 60 ans de la mort d'Alan Turing</button>
-        <button type="button" class="quiz-option" data-idx="1">Pour fêter le centenaire de la naissance d'Alan Turing</button>
-        <button type="button" class="quiz-option" data-idx="2">Pour inaugurer le premier superordinateur quantique</button>
+      <!-- Question 3 -->
+      <div class="quiz-q" data-answer="0">
+        <div class="quiz-title">3. Quelle identité le programme Eugene Goostman utilisait-il en juin 2014 ?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-idx="0" type="button">Un adolescent ukrainien de 13 ans</button>
+          <button class="quiz-opt" data-idx="1" type="button">Un professeur d'université anglais</button>
+          <button class="quiz-opt" data-idx="2" type="button">Un journaliste scientifique américain</button>
+        </div>
+        <div class="quiz-feedback"></div>
       </div>
-      <div class="quiz-feedback"></div>
-    </div>
 
-    <div class="quiz-card" data-answer="1">
-      <div class="quiz-question">4. Quel score final Eugene Goostman a-t-il obtenu le 8 juin 2014 ?</div>
-      <div class="quiz-options">
-        <button type="button" class="quiz-option" data-idx="0">27 % (8 juges sur 30)</button>
-        <button type="button" class="quiz-option" data-idx="1">33 % (10 juges sur 30)</button>
-        <button type="button" class="quiz-option" data-idx="2">50 % (15 juges sur 30)</button>
+      <!-- Question 4 -->
+      <div class="quiz-q" data-answer="1">
+        <div class="quiz-title">4. Quel score Eugene Goostman a-t-il obtenu lors de l'événement à Londres en 2014 ?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-idx="0" type="button">27 % (échec de justesse)</button>
+          <button class="quiz-opt" data-idx="1" type="button">33 % (10 juges sur 30 convaincus)</button>
+          <button class="quiz-opt" data-idx="2" type="button">75 % (22 juges sur 30 convaincus)</button>
+        </div>
+        <div class="quiz-feedback"></div>
       </div>
-      <div class="quiz-feedback"></div>
-    </div>
 
-    <div id="quiz-summary"></div>
+      <!-- Question 5 -->
+      <div class="quiz-q" data-answer="2">
+        <div class="quiz-title">5. Quelle a été la principale critique des scientifiques après cette victoire ?</div>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-idx="0" type="button">Le test a duré trop longtemps (2 heures)</button>
+          <button class="quiz-opt" data-idx="1" type="button">L'ordinateur avait accès à Internet pour tricher</button>
+          <button class="quiz-opt" data-idx="2" type="button">Le robot a utilisé une ruse psychologique sans vraiment comprendre ce qu'il disait</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-result-box">
+        <span id="quiz-score-text">Score actuel : 0 / 5</span>
+        <button class="btn-icon" id="quiz-reset" type="button">Recommencer le quiz</button>
+      </div>
+    </div>
   </section>
 </main>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
   // 1. Barre de progression de lecture
-  const progressBar = document.getElementById("progress-bar");
   window.addEventListener("scroll", function() {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    progressBar.style.width = pct + "%";
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var pct = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    document.getElementById("progress-bar").style.width = pct + "%";
   });
 
-  // 2. Mode sombre / clair
-  const themeBtn = document.getElementById("theme-toggle");
+  // 2. Bascule Mode Clair / Mode Sombre
+  var themeBtn = document.getElementById("theme-toggle");
   themeBtn.addEventListener("click", function() {
-    document.body.classList.toggle("dark-mode");
-    const isDark = document.body.classList.contains("dark-mode");
-    themeBtn.textContent = isDark ? "Mode clair" : "Mode sombre";
+    document.body.classList.toggle("dark");
+    themeBtn.textContent = document.body.classList.contains("dark") ? "Mode clair" : "Mode sombre";
   });
 
-  // 3. Onglets (Tabs)
-  const tabBtns = document.querySelectorAll(".tab-btn");
-  const tabPanels = document.querySelectorAll(".tab-panel");
+  // 3. Système d'onglets
+  var tabBtns = document.querySelectorAll(".tab-btn");
+  var tabPanels = document.querySelectorAll(".tab-panel");
   tabBtns.forEach(function(btn) {
     btn.addEventListener("click", function() {
-      const targetId = btn.getAttribute("data-tab");
+      var target = btn.getAttribute("data-tab");
       tabBtns.forEach(function(b) { b.classList.remove("active"); });
       tabPanels.forEach(function(p) { p.classList.remove("active"); });
       btn.classList.add("active");
-      document.getElementById(targetId).classList.add("active");
+      document.getElementById(target).classList.add("active");
     });
   });
 
-  // 4. Accordéon controverse
-  const accHeaders = document.querySelectorAll(".accordion-header");
+  // 4. Accordéons
+  var accHeaders = document.querySelectorAll(".accordion-header");
   accHeaders.forEach(function(header) {
     header.addEventListener("click", function() {
-      const item = header.parentElement;
+      var item = header.parentElement;
+      var isOpen = item.classList.contains("open");
       item.classList.toggle("open");
-      const symbol = header.querySelector("span:last-child");
-      symbol.textContent = item.classList.contains("open") ? "−" : "+";
+      header.querySelector("span:last-child").textContent = isOpen ? "+" : "−";
     });
   });
 
   // 5. Simulateur de chat Eugene Goostman
-  const simMessages = document.getElementById("sim-messages");
-  const simInput = document.getElementById("sim-input");
-  const simSend = document.getElementById("sim-send");
-  const promptChips = document.querySelectorAll(".prompt-chip");
+  var simMessages = document.getElementById("sim-messages");
+  var simForm = document.getElementById("sim-form");
+  var simInput = document.getElementById("sim-input");
+  var quickBtns = document.querySelectorAll(".quick-btn");
 
   function getEugeneReply(text) {
-    const q = text.toLowerCase();
-    if (q.includes("robot") || q.includes("ia") || q.includes("ordinateur") || q.includes("machine")) {
-      return "Tu es le troisième à me demander ça aujourd'hui ! Non, je suis juste un garçon d'Odessa qui tape sur un vieux clavier. Et toi, prouve-moi que tu n'es pas un grille-pain !";
+    var q = text.toLowerCase();
+    if (q.includes("robot") || q.includes("ia") || q.includes("machine") || q.includes("ordinateur")) {
+      return "Haha n'importe quoi ! Si j'étais un robot, est-ce que j'aurais un cochon d'Inde à nourrir tous les matins ?";
     }
-    if (q.includes("calcul") || q.includes("multipli") || q.includes("combien") || /\d+\s*[\*\+x\/]\s*\d+/.test(q)) {
-      return "Ouh là, je déteste les maths en dehors de l'école. Mon prof à Odessa me donne déjà assez de devoirs comme ça. Tu fais quoi comme métier toi ?";
+    if (q.includes("148") || q.includes("combien") || q.includes("calcul") || q.includes("math")) {
+      return "Hé, je suis nul en maths et je déteste les devoirs ! Demande plutôt à ma prof d'Odessa.";
     }
-    if (q.includes("politique") || q.includes("guerre") || q.includes("europe") || q.includes("président")) {
-      return "J'ai seulement 13 ans, la politique des adultes m'ennuie profondément. Je préfère jouer aux jeux vidéo ou m'occuper de mon cochon d'Inde Bill.";
+    if (q.includes("animal") || q.includes("cochon") || q.includes("chien") || q.includes("chat")) {
+      return "Oui ! J'ai un cochon d'Inde trop mignon qui s'appelle Bill. Il adore manger des carottes.";
     }
-    if (q.includes("famille") || q.includes("père") || q.includes("mère") || q.includes("odessa")) {
-      return "Mon père est gynécologue à Odessa, il travaille beaucoup et regarde de vieux films soviétiques le soir. Ma mère dit que je passe trop de temps sur Internet.";
+    if (q.includes("turing") || q.includes("alan")) {
+      return "Alan Turing ? C'est un célèbre mathématicien anglais, non ? Mon père m'en a déjà parlé une fois.";
     }
-    if (q.includes("capitale") || q.includes("australie") || q.includes("géographie")) {
-      return "Canberra, évidemment ! Tout le monde pense que c'est Sydney, tu pensais m'avoir sur celle-là ?";
+    if (q.includes("musique") || q.includes("ecoute") || q.includes("chanteur")) {
+      return "J'écoute beaucoup Eminem ! Par contre je ne supporte pas la musique que ma mère met dans la cuisine.";
     }
-    const fallbacks = [
-      "Désolé, mon anglais et mon français ne sont pas parfaits, tu peux reformuler ? En tout cas il fait super beau à Odessa aujourd'hui.",
-      "Hmm, bonne question... mais attends, avant de répondre, dis-moi si tu aimes les animaux ? Mon cochon d'Inde vient de renverser son bol.",
-      "Je ne suis pas sûr de comprendre où tu veux en venir. Tu essaies de me tester comme un prof à l'école ?"
+    if (q.includes("ukraine") || q.includes("odessa") || q.includes("habite")) {
+      return "J'habite à Odessa au bord de la mer Noire. Désolé si mon français ou mon anglais n'est pas parfait !";
+    }
+    var fallbacks = [
+      "Désolé, je n'ai pas trop compris ta question... En Ukraine on ne parle pas beaucoup de ça ! Tu aimes les jeux vidéo ?",
+      "Bonne question ! Mais mon père m'appelle pour dîner, alors je réponds vite : tu préfères les films ou la musique ?",
+      "Franchement je ne sais pas, j'ai que 13 ans ! Parle-moi plutôt de ton pays."
     ];
     return fallbacks[Math.floor(Math.random() * fallbacks.length)];
   }
 
-  function appendSimMessage(text, isUser) {
-    const div = document.createElement("div");
-    div.className = isUser ? "msg msg-judge" : "msg msg-bot";
-    const author = document.createElement("span");
-    author.className = "msg-author";
-    author.textContent = isUser ? "Vous (Juge)" : "Eugene (13 ans, Odessa)";
-    div.appendChild(author);
-    div.appendChild(document.createTextNode(text));
-    simMessages.appendChild(div);
+  function sendUserMessage(text) {
+    if (!text.trim()) return;
+    var userDiv = document.createElement("div");
+    userDiv.className = "sim-bubble user";
+    userDiv.textContent = text;
+    simMessages.appendChild(userDiv);
     simMessages.scrollTop = simMessages.scrollHeight;
-  }
 
-  function handleSend(customText) {
-    const val = (customText !== undefined ? customText : simInput.value).trim();
-    if (!val) return;
-    appendSimMessage(val, true);
-    if (customText === undefined) simInput.value = "";
     setTimeout(function() {
-      appendSimMessage(getEugeneReply(val), false);
+      var botDiv = document.createElement("div");
+      botDiv.className = "sim-bubble eugene";
+      botDiv.textContent = getEugeneReply(text);
+      simMessages.appendChild(botDiv);
+      simMessages.scrollTop = simMessages.scrollHeight;
     }, 350);
   }
 
-  simSend.addEventListener("click", function() { handleSend(); });
-  simInput.addEventListener("keydown", function(e) {
-    if (e.key === "Enter") handleSend();
+  simForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    sendUserMessage(simInput.value);
+    simInput.value = "";
   });
-  promptChips.forEach(function(chip) {
-    chip.addEventListener("click", function() {
-      handleSend(chip.getAttribute("data-q"));
+
+  quickBtns.forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      sendUserMessage(btn.getAttribute("data-q"));
     });
   });
 
   // 6. Quiz interactif
-  const quizCards = document.querySelectorAll(".quiz-card");
-  const quizSummary = document.getElementById("quiz-summary");
-  let answeredCount = 0;
-  let score = 0;
+  var score = 0;
+  var explanations = [
+    "Exact ! Turing a publié son article « Computing Machinery and Intelligence » en octobre 1950.",
+    "Bravo ! Turing estimait qu'un juge aurait au maximum 70 % de chances de trouver la machine, donc au moins 30 % d'erreurs.",
+    "Tout à fait ! Ce rôle d'ado ukrainien excusait son manque de culture et ses fautes de langue.",
+    "Bien joué ! Avec 33 % (10 juges sur 30), Eugene a franchi la barre symbolique des 30 %.",
+    "Exact ! Les scientifiques ont souligné qu'il imitait un humain grâce à une astuce psychologique sans véritable intelligence."
+  ];
 
-  quizCards.forEach(function(card) {
-    const correctIdx = parseInt(card.getAttribute("data-answer"), 10);
-    const options = card.querySelectorAll(".quiz-option");
-    const feedback = card.querySelector(".quiz-feedback");
+  var questions = document.querySelectorAll(".quiz-q");
+  questions.forEach(function(qBox, qIndex) {
+    var correctIdx = parseInt(qBox.getAttribute("data-answer"), 10);
+    var opts = qBox.querySelectorAll(".quiz-opt");
+    var feedback = qBox.querySelector(".quiz-feedback");
 
-    options.forEach(function(opt) {
+    opts.forEach(function(opt) {
       opt.addEventListener("click", function() {
-        if (card.getAttribute("data-done") === "true") return;
-        card.setAttribute("data-done", "true");
-        answeredCount++;
+        if (qBox.classList.contains("answered")) return;
+        qBox.classList.add("answered");
 
-        const chosen = parseInt(opt.getAttribute("data-idx"), 10);
-        options.forEach(function(b) { b.disabled = true; });
+        var chosen = parseInt(opt.getAttribute("data-idx"), 10);
+        opts.forEach(function(o) { o.disabled = true; });
 
         if (chosen === correctIdx) {
-          score++;
           opt.classList.add("correct");
-          feedback.textContent = "Bonne réponse !";
+          score++;
           feedback.style.color = "var(--success)";
+          feedback.textContent = explanations[qIndex];
         } else {
           opt.classList.add("wrong");
-          options[correctIdx].classList.add("correct");
-          feedback.textContent = "Incorrect. La bonne réponse est surlignée en vert.";
+          opts[correctIdx].classList.add("correct");
           feedback.style.color = "var(--danger)";
+          feedback.textContent = "Raté ! " + explanations[qIndex];
         }
-
-        if (answeredCount === quizCards.length) {
-          quizSummary.style.display = "block";
-          quizSummary.textContent = "Résultat final : " + score + " / " + quizCards.length + " bonnes réponses.";
-        }
+        feedback.style.display = "block";
+        document.getElementById("quiz-score-text").textContent = "Score actuel : " + score + " / 5";
       });
     });
   });
-});
+
+  document.getElementById("quiz-reset").addEventListener("click", function() {
+    score = 0;
+    document.getElementById("quiz-score-text").textContent = "Score actuel : 0 / 5";
+    questions.forEach(function(qBox) {
+      qBox.classList.remove("answered");
+      var opts = qBox.querySelectorAll(".quiz-opt");
+      opts.forEach(function(o) {
+        o.disabled = false;
+        o.classList.remove("correct", "wrong");
+      });
+      var fb = qBox.querySelector(".quiz-feedback");
+      fb.style.display = "none";
+      fb.textContent = "";
+    });
+  });
 </script>
+
 </body>
 </html>
