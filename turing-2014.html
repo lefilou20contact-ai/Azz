@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>Turing, 1950–2014 : une prédiction mise à l’épreuve</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-2: #eef2f8;
+      --text: #172033;
+      --muted: #596579;
+      --line: #dbe2ed;
+      --accent: #3157d5;
+      --accent-2: #e8edff;
+      --good: #087a55;
+      --warn: #8a5700;
+      --shadow: 0 12px 35px rgba(30, 48, 83, .08);
+      --radius: 18px;
+    }
+
+    body.dark {
+      color-scheme: dark;
+      --bg: #111827;
+      --surface: #192437;
+      --surface-2: #222f46;
+      --text: #edf2fb;
+      --muted: #b2bfd2;
+      --line: #33425a;
+      --accent: #9aafff;
+      --accent-2: #29385e;
+      --good: #62d6ab;
+      --warn: #ffd078;
+      --shadow: 0 12px 35px rgba(0, 0, 0, .22);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      transition: background .2s ease, color .2s ease;
+    }
+    a { color: var(--accent); }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+    .progress-track {
+      position: fixed;
+      z-index: 20;
+      inset: 0 0 auto;
+      height: 4px;
+      background: transparent;
+    }
+    #readingProgress {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: var(--accent);
+      transition: width .08s linear;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .topbar {
+      max-width: 1120px;
+      margin: auto;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand { font-weight: 800; letter-spacing: -.03em; }
+    .top-actions { display: flex; align-items: center; gap: .6rem; }
+    .icon-button, .nav-link, .quick-question, .send-button {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      padding: .55rem .9rem;
+      cursor: pointer;
+      transition: transform .15s ease, background .15s ease;
+    }
+    .icon-button:hover, .nav-link:hover, .quick-question:hover, .send-button:hover {
+      transform: translateY(-1px);
+      background: var(--surface-2);
+    }
+    .jump-nav {
+      max-width: 1120px;
+      margin: auto;
+      padding: 0 1.25rem 1rem;
+      display: flex;
+      gap: .5rem;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+    .nav-link {
+      white-space: nowrap;
+      text-decoration: none;
+      color: var(--text);
+      font-size: .9rem;
+      padding: .4rem .8rem;
+    }
+
+    main { max-width: 960px; margin: auto; padding: 2rem 1.25rem 5rem; }
+    .hero {
+      padding: clamp(1.5rem, 5vw, 3.5rem);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 90% 15%, var(--accent-2), transparent 34%),
+        var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--accent);
+      font-size: .78rem;
+      font-weight: 800;
+    }
+    h1 { font-size: clamp(2.2rem, 6vw, 4.25rem); line-height: 1.05; letter-spacing: -.055em; margin: .6rem 0 1rem; }
+    h2 { font-size: clamp(1.6rem, 4vw, 2.25rem); line-height: 1.2; letter-spacing: -.03em; }
+    h3 { line-height: 1.25; }
+    .lede { max-width: 68ch; color: var(--muted); font-size: 1.15rem; }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: .75rem;
+      margin-top: 1.7rem;
+    }
+    .stat {
+      padding: 1rem;
+      border-radius: 14px;
+      background: var(--surface-2);
+    }
+    .stat strong { display: block; font-size: 1.3rem; }
+    .stat span { color: var(--muted); font-size: .88rem; }
+
+    section { margin-top: 3rem; scroll-margin-top: 5rem; }
+    .section-intro { color: var(--muted); max-width: 72ch; }
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+    .card, .panel, .quote, .chat-shell, .quiz-shell {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+    .card h3 { margin-top: 0; }
+    .muted { color: var(--muted); }
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: var(--accent-2);
+      border-radius: 0 12px 12px 0;
+      padding: 1rem 1.1rem;
+      margin: 1rem 0;
+    }
+    .caution { border-left-color: var(--warn); }
+    .timeline { position: relative; margin: 1.5rem 0; padding-left: 1.5rem; }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: .28rem;
+      top: .5rem;
+      bottom: .5rem;
+      width: 2px;
+      background: var(--line);
+    }
+    .timeline-item { position: relative; padding: 0 0 1.3rem 1rem; }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -1.32rem;
+      top: .48rem;
+      width: .65rem;
+      height: .65rem;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--bg);
+    }
+    .timeline-item strong { display: block; }
+    .timeline-item p { margin: .2rem 0; color: var(--muted); }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      margin: .7rem 0;
+      padding: 0 1rem;
+    }
+    summary {
+      cursor: pointer;
+      padding: 1rem 0;
+      font-weight: 750;
+    }
+    details > :not(summary) { padding-bottom: .8rem; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; }
+    table { width: 100%; border-collapse: collapse; min-width: 600px; background: var(--surface); }
+    th, td { padding: .85rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+    th { background: var(--surface-2); }
+    tr:last-child td { border-bottom: 0; }
+    .rank { font-weight: 800; color: var(--accent); }
+    .meter { height: 9px; margin-top: .35rem; background: var(--surface-2); border-radius: 9px; overflow: hidden; }
+    .meter span { display: block; height: 100%; background: var(--accent); border-radius: inherit; }
+
+    blockquote { margin: 0; }
+    .quote { margin: 1rem 0; }
+    .quote p { margin: .35rem 0; }
+    .quote footer { margin-top: .8rem; color: var(--muted); font-size: .9rem; }
+    .dialogue-line { padding: .55rem 0; border-bottom: 1px solid var(--line); }
+    .dialogue-line:last-child { border-bottom: 0; }
+    .speaker { font-weight: 800; color: var(--accent); }
+
+    .chat-shell { max-width: 720px; }
+    .chat-window {
+      min-height: 230px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: .8rem;
+      background: var(--surface-2);
+      border-radius: 14px;
+      margin-bottom: .9rem;
+    }
+    .bubble {
+      width: fit-content;
+      max-width: 88%;
+      padding: .65rem .85rem;
+      border-radius: 14px;
+      margin: .45rem 0;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+    .bubble.bot { background: var(--surface); border: 1px solid var(--line); }
+    .bubble.user { margin-left: auto; color: #fff; background: #3157d5; }
+    .chat-controls { display: flex; gap: .5rem; }
+    .chat-controls input {
+      min-width: 0;
+      flex: 1;
+      padding: .7rem .9rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--text);
+      background: var(--surface);
+    }
+    .quick-questions { display: flex; flex-wrap: wrap; gap: .45rem; margin: .8rem 0; }
+    .quick-question { font-size: .88rem; }
+    .send-button { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .chat-note { font-size: .85rem; color: var(--muted); }
+    .quiz-question { padding: 1rem 0; border-bottom: 1px solid var(--line); }
+    .quiz-question:last-of-type { border: 0; }
+    .quiz-question fieldset { border: 0; padding: 0; margin: 0; }
+    .quiz-question legend { font-weight: 750; margin-bottom: .5rem; }
+    .quiz-option { display: block; padding: .38rem .5rem; border-radius: 8px; cursor: pointer; }
+    .quiz-option:hover { background: var(--surface-2); }
+    .quiz-feedback { min-height: 1.4em; font-weight: 700; font-size: .92rem; }
+    .correct { color: var(--good); }
+    .incorrect { color: #b33a3a; }
+    .quiz-footer { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+    .result { font-weight: 800; }
+    .button-primary {
+      border: 0;
+      color: #fff;
+      background: var(--accent);
+      border-radius: 999px;
+      padding: .7rem 1.1rem;
+      cursor: pointer;
+      font-weight: 750;
+    }
+    .sources li { margin: .5rem 0; }
+    footer.page-footer { border-top: 1px solid var(--line); padding: 1.5rem 0; color: var(--muted); }
+
+    @media (max-width: 600px) {
+      .topbar { align-items: flex-start; }
+      .brand { max-width: 170px; }
+      main { padding-inline: 1rem; }
+      .hero { border-radius: 20px; }
+      .chat-controls { flex-wrap: wrap; }
+      .chat-controls input { flex-basis: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+    @media print {
+      :root, body.dark {
+        color-scheme: light;
+        --bg: #fff; --surface: #fff; --surface-2: #f3f4f6;
+        --text: #111; --muted: #444; --line: #ccc; --accent: #234;
+        --accent-2: #f4f5f6; --shadow: none;
+      }
+      body { background: #fff; font-size: 11pt; }
+      .progress-track, .top-actions, .jump-nav, .chat-controls, .quick-questions,
+      .quiz-footer button { display: none !important; }
+      main { max-width: none; padding: 0; }
+      .hero, .card, .panel, .quote, .chat-shell, .quiz-shell { box-shadow: none; break-inside: avoid; }
+      section { margin-top: 1.5rem; }
+      a { color: inherit; }
+      details > * { display: block !important; }
+      details summary { list-style: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-track" aria-hidden="true"><span id="readingProgress"></span></div>
+
+  <header>
+    <div class="topbar">
+      <div class="brand">Le jeu de l’imitation · 1950—2014</div>
+      <div class="top-actions">
+        <button id="themeToggle" class="icon-button" type="button" aria-label="Activer le mode sombre">☾ Mode sombre</button>
+      </div>
+    </div>
+    <nav class="jump-nav" aria-label="Navigation dans les chapitres">
+      <a class="nav-link" href="#prediction">La prédiction</a>
+      <a class="nav-link" href="#evenement">Londres, 2014</a>
+      <a class="nav-link" href="#dialogues">Les dialogues</a>
+      <a class="nav-link" href="#resultats">Résultats</a>
+      <a class="nav-link" href="#controverse">Controverse</a>
+      <a class="nav-link" href="#aujourdhui">Aujourd’hui</a>
+      <a class="nav-link" href="#simulateur">Simulateur</a>
+      <a class="nav-link" href="#quiz">Quiz</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="titre">
+      <div class="eyebrow">Histoire · expérience · débat</div>
+      <h1 id="titre">Une machine peut-elle nous faire croire qu’elle pense&nbsp;?</h1>
+      <p class="lede">
+        En 1950, Alan Turing proposait une expérience conversationnelle pour déplacer
+        une question philosophique difficile. En juin 2014, un concours londonien
+        a remis cette idée sous les projecteurs — et relancé le débat sur ce qu’un
+        « test réussi » permet réellement de conclure.
+      </p>
+      <div class="hero-stats" aria-label="Repères essentiels">
+        <div class="stat"><strong>1950</strong><span>l’article de Turing</span></div>
+        <div class="stat"><strong>5 minutes</strong><span>la durée de l’échange évoquée par Turing</span></div>
+        <div class="stat"><strong>7 juin 2014</strong><span>les tests à la Royal Society</span></div>
+        <div class="stat"><strong>33 %*</strong><span>résultat attribué à Eugene dans les comptes rendus</span></div>
+      </div>
+      <p class="chat-note">* Pourcentage relayé dans les annonces de l’événement ; le protocole et les dénominateurs méritent d’être distingués des résultats détaillés parfois reproduits.</p>
+    </section>
+
+    <section id="prediction">
+      <div class="eyebrow">01 · Le point de départ</div>
+      <h2>La prédiction de 1950</h2>
+      <p class="section-intro">
+        Dans « Computing Machinery and Intelligence », publié dans <em>Mind</em>,
+        Turing choisit de remplacer « les machines peuvent-elles penser ? » par
+        une expérience plus opérationnelle : le jeu de l’imitation.
+      </p>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Le jeu de l’imitation</h3>
+          <p>Un interrogateur communique par écrit avec deux interlocuteurs cachés. Il doit déterminer lequel est humain. Turing envisage ensuite de remplacer l’un des participants par une machine et demande si celle-ci pourrait induire l’interrogateur en erreur aussi souvent qu’un humain.</p>
+        </article>
+        <article class="card">
+          <h3>Le pari pour l’an 2000</h3>
+          <p>Turing écrit qu’il estime qu’« dans environ cinquante ans », une machine disposant d’environ <strong>10<sup>9</sup> unités de stockage</strong> pourrait jouer au jeu de façon à tromper un interrogateur moyen dans <strong>au moins 30 % des cas après cinq minutes</strong>.</p>
+          <p class="muted">Il s’agit d’une estimation, pas d’une définition universelle de l’intelligence ni d’une prédiction que toute machine devrait satisfaire.</p>
+        </article>
+        <article class="card">
+          <h3>Que voulait dire « penser » ?</h3>
+          <p>La formulation évite de trancher la question de l’expérience intérieure. Elle met plutôt l’accent sur un comportement observable dans une interaction donnée. Cette approche est influente, mais elle ne prouve pas qu’un système comprend ou ressent ce qu’il dit.</p>
+        </article>
+      </div>
+      <div class="callout">
+        <strong>Précision d’unité :</strong> dans le texte de 1950, Turing parle de capacité de stockage en « digital computers » et évoque une machine avec une capacité de l’ordre de 10<sup>9</sup>. Les résumés modernes précisent souvent qu’il s’agit de bits ; mieux vaut éviter de présenter cela comme une mesure de « neurones » ou de paramètres.
+      </div>
+      <details>
+        <summary>Le détail technique : la proposition de Turing</summary>
+        <p>Le papier discute plusieurs objections à la possibilité de machines pensantes, puis présente le jeu de l’imitation comme substitut à la question initiale. La prédiction est formulée comme une anticipation de performance dans un scénario précis : une conversation courte, une capacité de stockage donnée et un interrogateur moyen. Elle ne constitue pas un protocole expérimental moderne normalisé.</p>
+        <p>Le succès dépend notamment de la durée, du rôle attribué aux participants, des sujets autorisés, du nombre de juges, de leur expérience et de la règle de décision. Modifier ces paramètres peut changer considérablement le résultat.</p>
+      </details>
+    </section>
+
+    <section id="evenement">
+      <div class="eyebrow">02 · Londres, juin 2014</div>
+      <h2>Une commémoration devenue événement médiatique</h2>
+      <p class="section-intro">
+        L’Université de Reading, avec Kevin Warwick et Huma Shah, a organisé
+        une série de tests à la Royal Society, en lien avec le projet européen
+        RoboLaw. L’événement s’inscrivait dans les commémorations du 60<sup>e</sup>
+        anniversaire de la mort de Turing.
+      </p>
+      <div class="timeline">
+        <div class="timeline-item"><strong>1950 — La proposition</strong><p>Turing publie son article et imagine une performance conversationnelle d’ici environ cinquante ans.</p></div>
+        <div class="timeline-item"><strong>2001 — Eugene Goostman apparaît</strong><p>Le chatbot est créé par Vladimir Veselov et Eugene Demchenko. Il incarne un adolescent ukrainien fictif de 13 ans.</p></div>
+        <div class="timeline-item"><strong>6–8 juin 2014 — Rencontre à Londres</strong><p>Les activités de la Royal Society sont organisées autour de l’histoire et de l’évaluation de l’intelligence artificielle. Le test public marquant a lieu le 7 juin ; John Barnden intervient comme arbitre.</p></div>
+        <div class="timeline-item"><strong>9 juin 2014 — Annonce et réactions</strong><p>Les organisateurs annoncent qu’Eugene a franchi le seuil associé à la prédiction de Turing ; les réserves scientifiques et médiatiques apparaissent immédiatement.</p></div>
+      </div>
+      <div class="callout caution">
+        <strong>À ne pas confondre :</strong> la rencontre s’étend du 6 au 8 juin, tandis que le test mis en avant dans les annonces s’est déroulé le 7 juin. La formule médiatique « le premier ordinateur à réussir le test de Turing » est contestée : il n’existe pas une seule version universelle de ce test, ni un protocole unique faisant autorité.
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Le protocole annoncé</h3>
+          <p>Les comptes rendus décrivent des conversations textuelles de <strong>cinq minutes</strong>, sur des sujets libres, avec <strong>30 juges</strong>. L’événement est souvent résumé comme comportant <strong>300 conversations</strong> au total. Ces chiffres décrivent le format rapporté, mais les articles ne détaillent pas tous la répartition des échanges de la même façon.</p>
+        </article>
+        <article class="card">
+          <h3>La règle de décision</h3>
+          <p>Les juges devaient décider qui était humain et qui était un programme. La barre des 30 % était rapprochée de la prévision de Turing. Mais un score dans un concours ponctuel n’équivaut pas à une validation universelle de la capacité à « penser ».</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="strategie">
+      <div class="eyebrow">03 · Une persona, une stratégie</div>
+      <h2>Pourquoi choisir un adolescent ukrainien&nbsp;?</h2>
+      <p class="section-intro">
+        Eugene Goostman ne cherchait pas à se présenter comme un adulte omniscient.
+        Son personnage fournit une explication plausible à des réponses naïves,
+        à un anglais imparfait ou à des changements de sujet.
+      </p>
+      <div class="card-grid">
+        <article class="card"><h3>Excuser les lacunes</h3><p>Une erreur factuelle peut sembler moins suspecte chez un adolescent que chez un assistant censé tout savoir.</p></article>
+        <article class="card"><h3>Dévier l’interrogatoire</h3><p>Une question en retour, une plaisanterie ou une anecdote déplacent parfois l’attention de la question initiale.</p></article>
+        <article class="card"><h3>Exploiter la brièveté</h3><p>Cinq minutes laissent peu de temps pour vérifier la cohérence sur plusieurs sujets ou pour approfondir une réponse évasive.</p></article>
+      </div>
+      <div class="callout">
+        Ces procédés peuvent améliorer la performance dans un jeu conversationnel. Ils ne constituent pas, à eux seuls, une preuve de raisonnement général, de compréhension ou de conscience.
+      </div>
+    </section>
+
+    <section id="dialogues">
+      <div class="eyebrow">04 · Extraits publiés</div>
+      <h2>Des dialogues qui montrent la tactique</h2>
+      <p class="section-intro">
+        Les extraits ci-dessous sont reproduits en anglais, langue des échanges.
+        Ils proviennent de conversations rapportées publiquement par des participants
+        et des comptes rendus de l’époque ; ils ne sont pas présentés comme une
+        transcription complète de toutes les sessions.
+      </p>
+      <div class="quote">
+        <div class="dialogue-line"><span class="speaker">Scott Aaronson :</span> Which is bigger, a shoebox or Mount Everest?</div>
+        <div class="dialogue-line"><span class="speaker">Eugene :</span> I can’t make a choice right now. I should think it out later. And I forgot to ask you where you are from…</div>
+        <div class="dialogue-line"><span class="speaker">Scott Aaronson :</span> How many legs does a camel have?</div>
+        <div class="dialogue-line"><span class="speaker">Eugene :</span> Something between 2 and 4. Maybe, three? :-))) By the way, I still don’t know your specialty – or, possibly, I’ve missed it?</div>
+        <div class="dialogue-line"><span class="speaker">Scott Aaronson :</span> How many legs does a millipede have?</div>
+        <div class="dialogue-line"><span class="speaker">Eugene :</span> Just two, but Chernobyl mutants may have up to five. I know you are supposed to trick me.</div>
+        <footer>Lecture : refus ou report de réponse, plaisanterie, puis question de relance. Le personnage rend l’évitement cohérent avec une attitude adolescente et méfiante.</footer>
+      </div>
+      <div class="quote">
+        <div class="dialogue-line"><span class="speaker">Doug Aamoth :</span> How are you adjusting to all your new-found fame?</div>
+        <div class="dialogue-line"><span class="speaker">Eugene :</span> I would rather not talk about it if you don’t mind. By the way, what’s your occupation?</div>
+        <div class="dialogue-line"><span class="speaker">Doug Aamoth :</span> I’m a technology blogger…</div>
+        <div class="dialogue-line"><span class="speaker">Eugene :</span> It’s quite surprising that you are a technology blogger. Where do you came from, by the way? Could you tell me about the place where you live?</div>
+        <footer>Lecture : Eugene esquive la question personnelle et reprend la main avec des questions sur son interlocuteur. La faute grammaticale est compatible avec la persona du personnage.</footer>
+      </div>
+      <details>
+        <summary>Ce que ces extraits ne démontrent pas</summary>
+        <p>Une réplique habile peut détourner une question, mais elle n’établit pas à elle seule une compréhension profonde de son contenu. Pour évaluer un système, il faut aussi considérer la cohérence sur la durée, la capacité à corriger ses erreurs, la robustesse face à des formulations nouvelles et les conditions exactes du test.</p>
+      </details>
+    </section>
+
+    <section id="resultats">
+      <div class="eyebrow">05 · Le classement rapporté</div>
+      <h2>Les cinq programmes participants</h2>
+      <p class="section-intro">
+        Voici le classement chiffré souvent associé au compte rendu de l’événement.
+        Les pourcentages sont reproduits tels qu’ils sont rapportés, et doivent être
+        lus avec la réserve méthodologique ci-dessous.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Rang</th><th>Programme</th><th>Part annoncée</th><th>Score visuel</th></tr></thead>
+          <tbody>
+            <tr><td class="rank">1</td><td><strong>Eugene Goostman</strong></td><td>33 %</td><td><div class="meter" aria-label="33 %"><span style="width:33%"></span></div></td></tr>
+            <tr><td class="rank">2</td><td>Elbot</td><td>27 %</td><td><div class="meter" aria-label="27 %"><span style="width:27%"></span></div></td></tr>
+            <tr><td class="rank">3</td><td>JFred</td><td>20 %</td><td><div class="meter" aria-label="20 %"><span style="width:20%"></span></div></td></tr>
+            <tr><td class="rank">4</td><td>Ultra Hal</td><td>13 %</td><td><div class="meter" aria-label="13 %"><span style="width:13%"></span></div></td></tr>
+            <tr><td class="rank">5</td><td>Cleverbot</td><td>7 %</td><td><div class="meter" aria-label="7 %"><span style="width:7%"></span></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout caution">
+        <strong>Prudence sur la précision :</strong> ces cinq pourcentages apparaissent dans des résumés du classement, mais les sources disponibles ne décrivent pas toutes clairement le calcul, le dénominateur ni le traitement de chaque participant. Les annonces les plus citées mettent surtout en avant Eugene et son résultat de 33 %. Le tableau ne doit donc pas être lu comme un jeu de données audité ou comme la preuve que chaque programme a suivi exactement le même nombre de conversations.
+      </div>
+    </section>
+
+    <section id="controverse">
+      <div class="eyebrow">06 · La controverse scientifique</div>
+      <h2>Réussite au jeu, preuve d’intelligence&nbsp;?</h2>
+      <p class="section-intro">
+        Dès le 9 juin 2014, plusieurs spécialistes et commentateurs ont contesté
+        l’interprétation triomphale de l’annonce. Le désaccord porte moins sur le
+        score publié que sur ce qu’il autorise à conclure.
+      </p>
+      <details open>
+        <summary>Les principales critiques</summary>
+        <ul>
+          <li><strong>La persona peut masquer les limites :</strong> l’âge et le statut de locuteur non natif justifient des erreurs et des réponses incomplètes.</li>
+          <li><strong>Une fenêtre de cinq minutes est courte :</strong> elle favorise les pirouettes et laisse peu de place à un examen soutenu du raisonnement.</li>
+          <li><strong>Un résultat dépend du protocole :</strong> choix des juges, sujets, consignes, durée et seuil modifient la difficulté.</li>
+          <li><strong>Imitation n’est pas compréhension :</strong> paraître humain dans un échange ne permet pas de mesurer directement l’expérience subjective ou la compréhension sémantique.</li>
+          <li><strong>Le « test de Turing » n’est pas un examen unique :</strong> différentes expériences ont utilisé des règles différentes ; revendiquer une première victoire absolue est donc controversé.</li>
+        </ul>
+      </details>
+      <details>
+        <summary>Pourquoi le score de 33 % a fait débat</summary>
+        <p>La prédiction de Turing évoque des interrogateurs moyens trompés au moins 30 % du temps après cinq minutes. Le résultat annoncé pour Eugene a été rapproché de ce seuil. Toutefois, il faut distinguer l’intuition de Turing, l’opérationnalisation choisie en 2014 et l’affirmation médiatique qu’une machine aurait « réussi le test ». Une ressemblance entre deux pourcentages ne suffit pas à rendre les protocoles identiques.</p>
+      </details>
+      <div class="callout">
+        La conclusion raisonnable est plus limitée : Eugene a montré qu’une persona et des stratégies de conversation pouvaient influencer certains juges dans ce format. Cela reste historiquement intéressant sans établir une intelligence générale.
+      </div>
+    </section>
+
+    <section id="aujourdhui">
+      <div class="eyebrow">07 · De 2014 à l’ère des grands modèles</div>
+      <h2>Scripts de dialogue et grands modèles de langage</h2>
+      <p class="section-intro">
+        La comparaison suivante porte sur des tendances générales : les systèmes
+        et les modèles varient beaucoup. Elle ne signifie pas que tout chatbot de
+        2014 fonctionnait exactement de la même manière, ni que tout LLM possède
+        les mêmes capacités.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Dimension</th><th>Eugene Goostman (2014)</th><th>Grands modèles de langage (LLM)</th></tr></thead>
+          <tbody>
+            <tr><td>Production des réponses</td><td>Règles, scripts, motifs de dialogue et stratégies conçues pour le personnage.</td><td>Texte généré à partir de régularités apprises dans de grands corpus, puis orienté par des instructions et des réglages.</td></tr>
+            <tr><td>Gestion de l’identité</td><td>Persona fixe : adolescent ukrainien fictif de 13 ans.</td><td>Rôle souvent défini par le contexte ; peut être modifié, mais la cohérence n’est pas garantie.</td></tr>
+            <tr><td>Forces typiques</td><td>Esquives prévisibles, ton distinctif, justification des erreurs.</td><td>Réponses plus fluides, sujets variés, reformulation, synthèse et suivi contextuel souvent meilleurs.</td></tr>
+            <tr><td>Limites</td><td>Réponses fragiles hors des scripts et stratégies prévus ; cohérence et connaissances limitées.</td><td>Hallucinations, erreurs de raisonnement, sensibilité à la formulation et absence de garantie de compréhension ou de vérité.</td></tr>
+            <tr><td>Ce qu’un dialogue mesure</td><td>La capacité à convaincre dans une courte conversation scénarisée.</td><td>La performance conversationnelle ; elle doit être complétée par d’autres évaluations selon l’usage.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Des évaluations complémentaires</h3>
+      <div class="card-grid">
+        <article class="card"><h3>Évaluations de tâches</h3><p>Mesurer des capacités définies — raisonnement, traduction, programmation ou compréhension — avec des critères reproductibles et des jeux de test adaptés.</p></article>
+        <article class="card"><h3>Évaluation humaine contrôlée</h3><p>Faire comparer des réponses à l’aveugle, sur plusieurs tâches, en documentant les consignes, les juges, la durée et les incertitudes statistiques.</p></article>
+        <article class="card"><h3>Robustesse et sécurité</h3><p>Vérifier la stabilité face aux reformulations, aux cas nouveaux, aux erreurs, aux demandes ambiguës et aux risques propres au contexte d’utilisation.</p></article>
+        <article class="card"><h3>Benchmarks spécialisés</h3><p>Utiliser des ensembles d’évaluation adaptés à une question précise, tout en gardant à l’esprit qu’un score de benchmark n’est pas une mesure exhaustive de l’intelligence.</p></article>
+      </div>
+      <p class="muted">Le test conversationnel garde une valeur historique et pédagogique. Pour les systèmes modernes, il est plus utile comme un indice parmi d’autres que comme verdict final.</p>
+    </section>
+
+    <section id="simulateur">
+      <div class="eyebrow">08 · À vous de jouer</div>
+      <h2>Mini-simulateur : une esquive à la Eugene</h2>
+      <p class="section-intro">Ce démonstrateur local utilise quelques règles et réponses préécrites pour illustrer des tactiques de conversation. Ce n’est ni le programme historique ni une reproduction de son code.</p>
+      <div class="chat-shell">
+        <div id="chatWindow" class="chat-window" role="log" aria-live="polite" aria-label="Conversation avec le simulateur">
+          <div class="bubble bot">Hi! I’m Eugene. I’m 13, so maybe you can explain this to me? 🙂</div>
+        </div>
+        <div class="quick-questions" aria-label="Questions rapides">
+          <button class="quick-question" type="button" data-question="How many legs does a camel have?">Combien de pattes a un chameau ?</button>
+          <button class="quick-question" type="button" data-question="What is your favorite subject?">Ta matière préférée ?</button>
+          <button class="quick-question" type="button" data-question="Are you a computer?">Es-tu un ordinateur ?</button>
+          <button class="quick-question" type="button" data-question="What do you think about London?">Que penses-tu de Londres ?</button>
+        </div>
+        <form id="chatForm" class="chat-controls">
+          <label class="sr-only" for="chatInput">Votre message</label>
+          <input id="chatInput" type="text" maxlength="300" autocomplete="off" placeholder="Écrivez un message…" required>
+          <button class="send-button" type="submit">Envoyer</button>
+        </form>
+        <p class="chat-note">La simulation répond localement dans votre navigateur. Elle ne transmet aucun message.</p>
+      </div>
+    </section>
+
+    <section id="quiz">
+      <div class="eyebrow">09 · Vérifiez vos repères</div>
+      <h2>Quiz de compréhension</h2>
+      <p class="section-intro">Choisissez une réponse : la correction apparaît immédiatement. Votre score se met à jour au fil des réponses.</p>
+      <div class="quiz-shell">
+        <form id="quizForm">
+          <div class="quiz-question" data-answer="b">
+            <fieldset>
+              <legend>1. Que prévoyait Turing autour de l’an 2000 ?</legend>
+              <label class="quiz-option"><input type="radio" name="q1" value="a"> Une machine consciente à coup sûr.</label>
+              <label class="quiz-option"><input type="radio" name="q1" value="b"> Une machine pouvant tromper un interrogateur moyen dans au moins 30 % des cas après cinq minutes.</label>
+              <label class="quiz-option"><input type="radio" name="q1" value="c"> La disparition de tous les ordinateurs personnels.</label>
+            </fieldset>
+            <div class="quiz-feedback" aria-live="polite"></div>
+          </div>
+          <div class="quiz-question" data-answer="a">
+            <fieldset>
+              <legend>2. Quelle persona Eugene Goostman incarnait-il ?</legend>
+              <label class="quiz-option"><input type="radio" name="q2" value="a"> Un adolescent ukrainien fictif de 13 ans.</label>
+              <label class="quiz-option"><input type="radio" name="q2" value="b"> Alan Turing à l’âge adulte.</label>
+              <label class="quiz-option"><input type="radio" name="q2" value="c"> Un médecin britannique.</label>
+            </fieldset>
+            <div class="quiz-feedback" aria-live="polite"></div>
+          </div>
+          <div class="quiz-question" data-answer="c">
+            <fieldset>
+              <legend>3. Que démontre au mieux un score élevé dans un test conversationnel court ?</legend>
+              <label class="quiz-option"><input type="radio" name="q3" value="a"> Que le système est conscient.</label>
+              <label class="quiz-option"><input type="radio" name="q3" value="b"> Qu’il comprend nécessairement toutes ses réponses.</label>
+              <label class="quiz-option"><input type="radio" name="q3" value="c"> Qu’il a convaincu des juges dans les conditions définies par ce test.</label>
+            </fieldset>
+            <div class="quiz-feedback" aria-live="polite"></div>
+          </div>
+          <div class="quiz-question" data-answer="b">
+            <fieldset>
+              <legend>4. Pourquoi la persona d’Eugene pouvait-elle aider ?</legend>
+              <label class="quiz-option"><input type="radio" name="q4" value="a"> Elle supprimait toutes les erreurs du programme.</label>
+              <label class="quiz-option"><input type="radio" name="q4" value="b"> Elle rendait certaines lacunes et esquives plus plausibles aux yeux des juges.</label>
+              <label class="quiz-option"><input type="radio" name="q4" value="c"> Elle empêchait les juges de poser des questions.</label>
+            </fieldset>
+            <div class="quiz-feedback" aria-live="polite"></div>
+          </div>
+          <div class="quiz-question" data-answer="a">
+            <fieldset>
+              <legend>5. Quelle approche est la plus solide pour évaluer un système moderne ?</legend>
+              <label class="quiz-option"><input type="radio" name="q5" value="a"> Combiner des évaluations adaptées à plusieurs capacités et documenter leur protocole.</label>
+              <label class="quiz-option"><input type="radio" name="q5" value="b"> Se fier uniquement à une conversation de cinq minutes.</label>
+              <label class="quiz-option"><input type="radio" name="q5" value="c"> Mesurer seulement la longueur des réponses.</label>
+            </fieldset>
+            <div class="quiz-feedback" aria-live="polite"></div>
+          </div>
+          <div class="quiz-footer">
+            <button id="resetQuiz" class="button-primary" type="button">Recommencer</button>
+            <span id="quizResult" class="result" aria-live="polite">Score : 0 / 5 répondues</span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="sources">
+      <div class="eyebrow">Pour aller plus loin</div>
+      <h2>Sources et lectures</h2>
+      <p class="section-intro">La page est autonome ; les liens suivants ouvrent des références externes si vous souhaitez vérifier les textes et les comptes rendus.</p>
+      <ul class="sources">
+        <li>Alan M. Turing, <a href="https://academic.oup.com/mind/article/LIX/236/433/986238" target="_blank" rel="noopener noreferrer">« Computing Machinery and Intelligence »</a>, <em>Mind</em>, 1950.</li>
+        <li>Kevin Warwick et Huma Shah, <a href="https://doi.org/10.1080/0952813X.2015.1055826" target="_blank" rel="noopener noreferrer">« Can machines think? A report on Turing test experiments at the Royal Society »</a>, 2015.</li>
+        <li><a href="https://spectrum.ieee.org/virtual-tween-passes-turing-test" target="_blank" rel="noopener noreferrer">IEEE Spectrum, « Virtual Tween Passes Turing Test »</a>, sur l’événement et les critiques.</li>
+        <li><a href="https://time.com/2847900/eugene-goostman-turing-test/" target="_blank" rel="noopener noreferrer">TIME, entretien et compte rendu autour d’Eugene Goostman</a>.</li>
+        <li><a href="https://www.sciencedaily.com/releases/2014/06/140609093827.htm" target="_blank" rel="noopener noreferrer">ScienceDaily, annonce de l’Université de Reading</a>, juin 2014.</li>
+      </ul>
+    </section>
+
+    <footer class="page-footer">
+      Page éducative autonome. Les extraits de dialogue sont en anglais dans leur forme publiée ; les commentaires sont des analyses éditoriales et non des citations des participants.
+    </footer>
+  </main>
+
+  <style>
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+  </style>
+  <script>
+    (() => {
+      "use strict";
+
+      const body = document.body;
+      const themeButton = document.getElementById("themeToggle");
+      const progress = document.getElementById("readingProgress");
+
+      try {
+        if (localStorage.getItem("turing-page-theme") === "dark") body.classList.add("dark");
+      } catch (_) {}
+
+      function updateThemeButton() {
+        const dark = body.classList.contains("dark");
+        themeButton.textContent = dark ? "☀ Mode clair" : "☾ Mode sombre";
+        themeButton.setAttribute("aria-label", dark ? "Activer le mode clair" : "Activer le mode sombre");
+      }
+      updateThemeButton();
+
+      themeButton.addEventListener("click", () => {
+        body.classList.toggle("dark");
+        try {
+          localStorage.setItem("turing-page-theme", body.classList.contains("dark") ? "dark" : "light");
+        } catch (_) {}
+        updateThemeButton();
+      });
+
+      function updateProgress() {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const percent = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+        progress.style.width = Math.min(100, Math.max(0, percent)) + "%";
+      }
+      window.addEventListener("scroll", updateProgress, { passive: true });
+      window.addEventListener("resize", updateProgress);
+      updateProgress();
+
+      const chatWindow = document.getElementById("chatWindow");
+      const chatInput = document.getElementById("chatInput");
+      const chatForm = document.getElementById("chatForm");
+
+      function addBubble(text, kind) {
+        const bubble = document.createElement("div");
+        bubble.className = "bubble " + kind;
+        bubble.textContent = text;
+        chatWindow.appendChild(bubble);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }
+
+      function botReply(message) {
+        const text = message.toLowerCase();
+        if (/(camel|chameau|legs|pattes)/.test(text)) {
+          return "Something between 2 and 4, maybe? 🙂 By the way, where are you from?";
+        }
+        if (/(computer|ordinateur|machine|robot|ai|artificial intelligence|intelligence artificielle)/.test(text)) {
+          return "Why do you ask? I’m only 13! And you — what do you do?";
+        }
+        if (/(favorite|favourite|préfér|matière|school|école)/.test(text)) {
+          return "I like many things, though school can be boring. What was your favorite subject?";
+        }
+        if (/(london|londres|place|ville|where|où|from|viens)/.test(text)) {
+          return "I’m from Odessa, but I’d love to hear about your city. What is it like there?";
+        }
+        if (/(why|pourquoi|because|raison)/.test(text)) {
+          return "I’m not sure I understand. Could you say it another way? By the way, how old are you?";
+        }
+        const replies = [
+          "I would rather not talk about it if you don’t mind. What do you do?",
+          "That’s an interesting question! I have to think about it. Where are you from?",
+          "Maybe — but I’m only 13, you know! What do you think?",
+          "I’m not sure. You’re trying to trick me, aren’t you? 🙂",
+          "Can we talk about something else? Tell me about where you live."
+        ];
+        return replies[Math.floor(Math.random() * replies.length)];
+      }
+
+      function sendMessage(message) {
+        const clean = message.trim();
+        if (!clean) return;
+        addBubble(clean, "user");
+        window.setTimeout(() => addBubble(botReply(clean), "bot"), 350);
+      }
+
+      chatForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        sendMessage(chatInput.value);
+        chatInput.value = "";
+        chatInput.focus();
+      });
+
+      document.querySelectorAll(".quick-question").forEach((button) => {
+        button.addEventListener("click", () => sendMessage(button.dataset.question || ""));
+      });
+
+      const quizForm = document.getElementById("quizForm");
+      const quizResult = document.getElementById("quizResult");
+      const quizQuestions = Array.from(document.querySelectorAll(".quiz-question"));
+
+      function updateQuiz() {
+        let answered = 0;
+        let correct = 0;
+
+        quizQuestions.forEach((question) => {
+          const selected = question.querySelector('input[type="radio"]:checked');
+          const feedback = question.querySelector(".quiz-feedback");
+          feedback.className = "quiz-feedback";
+          feedback.textContent = "";
+          if (!selected) return;
+
+          answered += 1;
+          if (selected.value === question.dataset.answer) {
+            correct += 1;
+            feedback.textContent = "Correct !";
+            feedback.classList.add("correct");
+          } else {
+            feedback.textContent = "Pas tout à fait. Réessayez ou consultez le chapitre correspondant.";
+            feedback.classList.add("incorrect");
+          }
+        });
+
+        quizResult.textContent = answered === quizQuestions.length
+          ? "Score final : " + correct + " / " + quizQuestions.length
+          : "Score : " + correct + " / " + answered + " répondues";
+      }
+
+      quizForm.addEventListener("change", updateQuiz);
+      document.getElementById("resetQuiz").addEventListener("click", () => {
+        quizForm.reset();
+        updateQuiz();
+      });
+    })();
+  </script>
+</body>
+</html>
